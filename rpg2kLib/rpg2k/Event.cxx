@@ -10,24 +10,19 @@ namespace rpg2k
 		: code_(-1)
 		{
 		}
-		Instruction::Instruction(StreamReader& s)
+		Instruction::Instruction(std::istream& s)
 		{
-			code_ = s.ber();
-			nest_ = s.ber();
+			code_ = readBER(s);
+			nest_ = readBER(s);
 
 			Binary b;
-			s.get(b);
+			readWithSize(s, b);
 			stringArgument_ = static_cast<RPG2kString>(b);
 
-			int argNum = s.ber();
+			int argNum = readBER(s);
 
 			argument_.resize(argNum, VAR_DEF_VAL);
-			for(int i = 0; i < argNum; i++) argument_[i] = s.ber();
-		}
-		Instruction::Instruction(Instruction const& src)
-		: code_(src.code_), nest_(src.nest_)
-		, stringArgument_(src.stringArgument_), argument_(src.argument_)
-		{
+			for(int i = 0; i < argNum; i++) argument_[i] = readBER(s);
 		}
 
 		int32_t Instruction::at(unsigned index) const
@@ -48,24 +43,22 @@ namespace rpg2k
 			for(unsigned i = 0; i < argument_.size(); i++) ret += berSize(argument_[i]);
 			return ret;
 		}
-		void Instruction::serialize(StreamWriter& s) const
+		void Instruction::serialize(std::ostream& s) const
 		{
-			s.add( serializedSize() );
-
-			s.setBER(code_);
-			s.setBER(nest_);
-			s.setBER( stringArgument_.size() ); s.write(stringArgument_);
-			s.setBER( argument_.size() );
-			for(unsigned i = 0; i < argument_.size(); i++) s.setBER(argument_[i]);
+			writeBER(s, code_);
+			writeBER(s, nest_);
+			writeWithSize( s, Binary(stringArgument_) );
+			writeBER( s, argument_.size() );
+			for(unsigned i = 0; i < argument_.size(); i++) writeBER(s, argument_[i]);
 		}
 
 		Event::Event(Binary const& b)
 		{
-			StreamReader s( std::auto_ptr<StreamInterface>( new BinaryReaderNoCopy(b) ) );
+			std::istringstream s( static_cast<std::string>(b) );
 			init(s);
 		}
 
-		void Event::init(StreamReader& s)
+		void Event::init(std::istream& s)
 		{
 			while( !s.eof() ) {
 				data_.push_back( Instruction(s) );
@@ -89,10 +82,8 @@ namespace rpg2k
 			for(unsigned i = offset; i < data_.size(); i++) ret += data_[i].serializedSize();
 			return ret;
 		}
-		void Event::serialize(StreamWriter& s) const
+		void Event::serialize(std::ostream& s) const
 		{
-			s.add( serializedSize() );
-
 			for(unsigned i = 0; i < data_.size(); i++) data_[i].serialize(s);
 		}
 

@@ -40,23 +40,23 @@ namespace rpg2k
 			return true;
 		}
 
-		BerEnum::BerEnum(StreamReader& s)
+		BerEnum::BerEnum(std::istream& s)
 		{
 			init(s);
 		}
 		BerEnum::BerEnum(Binary const& b)
 		{
-			StreamReader s( std::auto_ptr<StreamInterface>( new BinaryReaderNoCopy(b) ) );
+			std::istringstream s( static_cast<std::string>(b) );
 			init(s);
 			rpg2k_assert( s.eof() );
 		}
 
-		void BerEnum::init(StreamReader& s)
+		void BerEnum::init(std::istream& s)
 		{
-			unsigned length = s.ber();
+			unsigned length = readBER(s);
 
 			resize(length+1);
-			for(unsigned i = 0; i <= length; i++) (*this)[i] = s.ber();
+			for(unsigned i = 0; i <= length; i++) (*this)[i] = readBER(s);
 		}
 
 		unsigned BerEnum::serializedSize() const
@@ -66,11 +66,10 @@ namespace rpg2k
 
 			return ret;
 		}
-		void BerEnum::serialize(StreamWriter& s) const
+		void BerEnum::serialize(std::ostream& s) const
 		{
-			Binary b = ( std::vector<unsigned>& ) *this;
-			s.setBER( b.size() - 1 );
-			s.write(b);
+			writeBER( s, this->size() - 1 );
+			for(unsigned i = 0; i < size(); i++) writeBER( s, (*this)[i] );
 		}
 /*
 		CharSetDir EventState::charSetDir() const
@@ -79,7 +78,7 @@ namespace rpg2k
 		}
  */
 
-		void Element::serialize(StreamWriter& s) const
+		void Element::serialize(std::ostream& s) const
 		{
 			if( isDefined() ) switch( descriptor_->type() ) {
 				#define PP_enum(TYPE) \
@@ -93,11 +92,11 @@ namespace rpg2k
 					case ElementType::TYPE##_: { \
 						Binary bin; \
 						bin = *impl_.TYPE##_; \
-						s.write(bin); \
+						write(s, bin); \
 					} break;
 				PP_basicTypes(PP_enum)
 				#undef PP_enum
-			} else s.write(binData_);
+			} else write(s, binData_);
 		}
 		unsigned Element::serializedSize() const
 		{
@@ -202,7 +201,7 @@ namespace rpg2k
 				binData_ = b;
 			}
 		}
-		void Element::init(StreamReader& s)
+		void Element::init(std::istream& s)
 		{
 			exists_ = true;
 
@@ -241,7 +240,7 @@ namespace rpg2k
 
 			init(b);
 		}
-		Element::Element(Descriptor const& info, StreamReader& s)
+		Element::Element(Descriptor const& info, std::istream& s)
 		: descriptor_(&info), owner_(NULL), index1_(-1), index2_(-1)
 		{
 			init(s);

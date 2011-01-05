@@ -11,9 +11,6 @@ namespace rpg2k
 {
 	namespace structure
 	{
-		class StreamReader;
-		class StreamWriter;
-
 		class Element
 		{
 		private:
@@ -36,13 +33,13 @@ namespace rpg2k
 
 			void init();
 			void init(Binary const& b);
-			void init(StreamReader& s);
+			void init(std::istream& s);
 		public:
 			Element();
 			Element(Element const& e);
 			Element(Descriptor const& info);
 			Element(Descriptor const& info, Binary const& b);
-			Element(Descriptor const& info, StreamReader& s);
+			Element(Descriptor const& info, std::istream& s);
 
 			Element(Array1D const& owner, unsigned index);
 			Element(Array1D const& owner, unsigned index , Binary const& b);
@@ -58,7 +55,7 @@ namespace rpg2k
 			Descriptor const& descriptor() const;
 
 			unsigned serializedSize() const;
-			void serialize(StreamWriter& s) const;
+			void serialize(std::ostream& s) const;
 			Binary serialize() const;
 
 			#define PP_castOperator(TYPE) \
@@ -124,14 +121,14 @@ namespace rpg2k
 		class BerEnum : public std::vector<unsigned>
 		{
 		protected:
-			void init(StreamReader& s);
+			void init(std::istream& s);
 		public:
 			BerEnum() {}
-			BerEnum(StreamReader& s);
+			BerEnum(std::istream& s);
 			BerEnum(Binary const& b);
 
 			unsigned serializedSize() const;
-			void serialize(StreamWriter& s) const;
+			void serialize(std::ostream& s) const;
 		}; // class BerEnum
 	} // namespace structure
 } // namespace rpg2k

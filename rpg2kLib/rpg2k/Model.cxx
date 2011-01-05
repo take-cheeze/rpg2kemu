@@ -4,6 +4,7 @@
 #include "define/Define.hxx"
 
 #include <algorithm>
+#include <fstream>
 #include <sstream>
 #include <stack>
 
@@ -69,23 +70,21 @@ namespace rpg2k
 			if( fileName_.empty() ) fileName_ = defaultName();
 			rpg2k_assert( exists() );
 
-			structure::StreamReader s( fullPath() );
+			std::ifstream ifs( fullPath().c_str() );
 
-			{
-				if( !s.checkHeader( this->header() ) ) rpg2k_assert(false);
-				/*
-				if( this->header() == std::string("LcfMapTree") ) {
-					// TODO
-				}
-				*/
+			if( !structure::checkHeader( ifs, this->header() ) ) rpg2k_assert(false);
+			/*
+			if( this->header() == std::string("LcfMapTree") ) {
+				// TODO
 			}
+			*/
 
 			boost::ptr_vector<Descriptor> const& info = descriptor();
 			for(unsigned int i = 0; i < info.size(); i++) {
-				data_.push_back( std::auto_ptr<Element>( new Element(info[i], s) ) );
+				data_.push_back( std::auto_ptr<Element>( new Element(info[i], ifs) ) );
 			}
 
-			rpg2k_assert( s.eof() );
+			rpg2k_assert( ifs.eof() );
 
 			loadImpl();
 		}
@@ -93,12 +92,12 @@ namespace rpg2k
 		{
 			exists_ = true;
 			saveImpl();
-			structure::StreamWriter s(filename);
-			serialize(s);
+			std::ofstream ofs( filename.c_str() );
+			serialize(ofs);
 		}
-		void Base::serialize(structure::StreamWriter& s)
+		void Base::serialize(std::ostream& s)
 		{
-			s.setHeader( header() );
+			structure::writeHeader( s, header() );
 			for(boost::ptr_vector<Element>::const_iterator it = data_.begin(); it < data_.end(); ++it) {
 				it->serialize(s);
 			}

@@ -62,7 +62,7 @@ namespace rpg2k
 		{
 			exists_ = false;
 		}
-		Array1D::Array1D(ArrayDefine info, StreamReader& s)
+		Array1D::Array1D(ArrayDefine info, std::istream& s)
 		: arrayDefine_(info), this_(NULL), owner_(NULL), index_(-1)
 		{
 			init(s);
@@ -70,7 +70,7 @@ namespace rpg2k
 		Array1D::Array1D(ArrayDefine info, Binary const& b)
 		: arrayDefine_(info), this_(NULL), owner_(NULL), index_(-1)
 		{
-			StreamReader s( std::auto_ptr<StreamInterface>( new BinaryReaderNoCopy(b) ) );
+			std::istringstream s( static_cast<std::string>(b) );
 			init(s);
 		}
 
@@ -80,7 +80,7 @@ namespace rpg2k
 		{
 			exists_ = false;
 		}
-		Array1D::Array1D(Element& e, StreamReader& s)
+		Array1D::Array1D(Element& e, std::istream& s)
 		: arrayDefine_( e.descriptor().arrayDefine() ), this_(&e)
 		, owner_(NULL), index_(-1)
 		{
@@ -90,7 +90,7 @@ namespace rpg2k
 		: arrayDefine_( e.descriptor().arrayDefine() ), this_(&e)
 		, owner_(NULL), index_(-1)
 		{
-			StreamReader s( std::auto_ptr<StreamInterface>( new BinaryReaderNoCopy(b) ) );
+			std::istringstream s( static_cast<std::string>(b) );
 			init(s);
 		}
 		Array1D::Array1D(Array2D& owner, unsigned index)
@@ -99,7 +99,7 @@ namespace rpg2k
 		{
 			exists_ = false;
 		}
-		Array1D::Array1D(Array2D& owner, unsigned index, StreamReader& s)
+		Array1D::Array1D(Array2D& owner, unsigned index, std::istream& s)
 		: arrayDefine_( owner.arrayDefine() ), this_(NULL)
 		, owner_(&owner), index_(index)
 		{
@@ -108,27 +108,27 @@ namespace rpg2k
 			Binary bin;
 
 			while(true) {
-				unsigned index2 = s.ber();
+				unsigned index2 = readBER(s);
 
 				if(index2 == ARRAY_1D_END) break;
 
-				s.get(bin);
+				readWithSize(s, bin);
 				if( bin.size() >= BIG_DATA_SIZE ) binBuf_.insert( std::make_pair(index2, bin) );
 				else insert( index2, std::auto_ptr<Element>( new Element(owner, index, index2, bin) ) );
 			}
 		}
-		void Array1D::init(StreamReader& s)
+		void Array1D::init(std::istream& s)
 		{
 			exists_ = true;
 
 			Binary bin;
 
 			while(true) {
-				unsigned index = s.ber();
+				unsigned index = readBER(s);
 
 				if(index == ARRAY_1D_END) break;
 
-				s.get(bin);
+				readWithSize(s, bin);
 				if( bin.size() >= BIG_DATA_SIZE ) binBuf_.insert( std::make_pair(index, bin) );
 				else insert( index, std::auto_ptr<Element>( new Element(*this, index, bin) ) );
 
@@ -212,22 +212,22 @@ namespace rpg2k
 
 			return ret;
 		}
-		void Array1D::serialize(StreamWriter& s) const
+		void Array1D::serialize(std::ostream& s) const
 		{
 			for(const_iterator it = begin(); it != end(); ++it) {
 				if( !it->second->exists() ) continue;
 
-				s.setBER( it->first );
-				s.setBER( it->second->serializedSize() );
+				writeBER( s, it->first );
+				writeBER( s, it->second->serializedSize() );
 				it->second->serialize(s);
 			}
 			for(std::map<unsigned, Binary>::const_iterator it = binBuf_.begin(); it != binBuf_.end(); ++it) {
-				s.setBER( it->first );
-				s.setBER( it->second.size() );
-				s.write(it->second);
+				writeBER( s, it->first );
+				writeBER( s, it->second.size() );
+				writeWithSize(s, it->second);
 			}
 
-			if( toElement().hasOwner() ) s.setBER(ARRAY_1D_END);
+			if( toElement().hasOwner() ) writeBER(s, ARRAY_1D_END);
 		}
 
 		unsigned const& Array1D::index() const { rpg2k_assert( isArray2D() ); return index_; }

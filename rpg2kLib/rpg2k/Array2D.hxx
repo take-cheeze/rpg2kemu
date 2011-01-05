@@ -13,8 +13,6 @@ namespace rpg2k
 		class Array1D;
 		class Descriptor;
 		class Element;
-		class StreamReader;
-		class StreamWriter;
 
 		typedef boost::ptr_multimap<unsigned, Array1D> BaseOfArray2D;
 
@@ -26,7 +24,7 @@ namespace rpg2k
 			Element* const this_;
 		protected:
 			Array2D();
-			void init(StreamReader& f);
+			void init(std::istream& f);
 			bool isInvalidArray2D(Binary const& b);
 		public:
 			typedef iterator Iterator;
@@ -37,11 +35,11 @@ namespace rpg2k
 			Array2D(Array2D const& array);
 
 			Array2D(ArrayDefine info);
-			Array2D(ArrayDefine info, StreamReader& s);
+			Array2D(ArrayDefine info, std::istream& s);
 			Array2D(ArrayDefine info, Binary const& b);
 
 			Array2D(Element& e);
-			Array2D(Element& e, StreamReader& s);
+			Array2D(Element& e, std::istream& s);
 			Array2D(Element& e, Binary const& b);
 
 			Array2D const& operator =(Array2D const& src);
@@ -59,7 +57,7 @@ namespace rpg2k
 
 			unsigned count() const;
 			unsigned serializedSize() const;
-			void serialize(StreamWriter& s) const;
+			void serialize(std::ostream& s) const;
 		}; // class Array2D
 	} // namespace structure
 } // namespace rpg2k

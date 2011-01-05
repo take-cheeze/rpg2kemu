@@ -27,8 +27,7 @@ namespace rpg2k
 			std::vector<int32_t> argument_;
 		public:
 			Instruction();
-			Instruction(StreamReader& s);
-			Instruction(Instruction const& src);
+			Instruction(std::istream& s);
 
 			unsigned code() const { return code_; }
 			void setCode(unsigned c) { code_ = c; }
@@ -52,7 +51,7 @@ namespace rpg2k
 			void addArg(int32_t arg) { argument_.push_back(arg); }
 
 			unsigned serializedSize() const;
-			void serialize(StreamWriter& s) const;
+			void serialize(std::ostream& s) const;
 		}; // class Instruction
 
 		class Element;
@@ -61,7 +60,7 @@ namespace rpg2k
 		class Event
 		{
 		protected:
-			void init(StreamReader& s);
+			void init(std::istream& s);
 		public:
 			Event() {}
 			Event(Binary const& b);
@@ -73,7 +72,7 @@ namespace rpg2k
 
 			unsigned serializedSize() const;
 			unsigned serializedSize(unsigned offset) const;
-			void serialize(StreamWriter& s) const;
+			void serialize(std::ostream& s) const;
 
 			typedef std::deque<Instruction> Data;
 			// Data const& data() const { return data_; }

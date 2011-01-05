@@ -13,12 +13,11 @@ namespace rpg2k
 {
 	namespace structure
 	{
-		class StreamWriter;
-
-		static unsigned const
+		enum {
 			BER_BIT  = (CHAR_BIT-1),
 			BER_SIGN = 0x01 << BER_BIT,
-			BER_MASK = BER_SIGN - 1;
+			BER_MASK = BER_SIGN - 1,
+		};
 		unsigned berSize(unsigned num);
 	} // namespace structure
 
@@ -62,36 +61,26 @@ namespace rpg2k
 		explicit Binary(unsigned size) : std::vector<uint8_t>(size) {}
 		explicit Binary(uint8_t* data, unsigned size) : std::vector<uint8_t>(data, data + size) {}
 		Binary(Binary const& b) : std::vector<uint8_t>(b) {}
-		Binary(RPG2kString str) { setString(str); }
+		Binary(std::string const& str) : std::vector<uint8_t>(str.begin(), str.end()) {}
 
-		uint8_t const* pointer(unsigned index = 0) const { return &((*this)[index]); }
-		uint8_t* pointer(unsigned index = 0) { return &((*this)[index]); }
+		uint8_t const* data(unsigned index = 0) const { return &((*this)[index]); }
+		uint8_t* data(unsigned index = 0) { return &((*this)[index]); }
 
-		bool isNumber() const;
+		bool isBER() const;
 		bool isString() const;
-	// setter
-		void setString(RPG2kString const& str);
-		void setNumber(int32_t num);
-		void setBool(bool b);
-		void setDouble(double d);
-	// converter
-		RPG2kString toString() const;
-		int    toNumber() const;
-		bool   toBool  () const;
-		double toDouble() const;
 	// operator wrap of converter
-		operator RPG2kString() const { return toString(); }
-		operator int  () const { return toNumber(); }
-		operator bool  () const { return toBool  (); }
-		operator double() const { return toDouble(); }
+		operator RPG2kString() const;
+		operator int   () const;
+		operator bool  () const;
+		operator double() const;
 	// operator wrap of setter
-		Binary const& operator =(RPG2kString const& src) { setString(src); return *this; }
-		Binary const& operator =(int    src) { setNumber(src); return *this; }
-		Binary const& operator =(bool   src) { setBool  (src); return *this; }
-		Binary const& operator =(double src) { setDouble(src); return *this; }
+		Binary& operator =(RPG2kString const& src);
+		Binary& operator =(int    src);
+		Binary& operator =(bool   src);
+		Binary& operator =(double src);
 
 		unsigned serializedSize() const;
-		void serialize(structure::StreamWriter& s) const;
+		void serialize(std::ostream& s) const;
 
 		template<class T>
 		std::vector<T> convert() const
@@ -99,7 +88,7 @@ namespace rpg2k
 			rpg2k_assert( ( this->size() % sizeof(T) ) == 0 );
 
 			std::vector<T> output( this->size() / sizeof(T) );
-			exchangeEndianIfNeed( output, this->pointer() );
+			exchangeEndianIfNeed( output, this->data() );
 			return output;
 		}
 		template<class T, size_t S>
@@ -109,14 +98,14 @@ namespace rpg2k
 			rpg2k_assert( (this->size() / sizeof(T)) == S );
 
 			boost::array<T, S> output;
-			exchangeEndianIfNeed( output, this->pointer() );
+			exchangeEndianIfNeed( output, this->data() );
 			return output;
 		}
 		template<class T>
 		Binary& assign(T const& src)
 		{
 			this->resize( sizeof(typename T::value_type) * src.size() );
-			exchangeEndianIfNeed( this->pointer(), src );
+			exchangeEndianIfNeed( this->data(), src );
 			return *this;
 		}
 

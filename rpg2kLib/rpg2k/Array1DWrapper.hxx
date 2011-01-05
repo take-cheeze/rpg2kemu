@@ -13,7 +13,7 @@ namespace rpg2k
 		{
 		public:
 			Sound(Element& e) : Array1D(e) {}
-			Sound(Element& e, StreamReader& s) : Array1D(e, s) {}
+			Sound(Element& e, std::istream& s) : Array1D(e, s) {}
 			Sound(Element& e, Binary const& b) : Array1D(e, b) {}
 
 			RPG2kString const& fileName() const { return (*this)[1]; }
@@ -28,7 +28,7 @@ namespace rpg2k
 		{
 		public:
 			Music(Element& e) : Sound(e) {}
-			Music(Element& e, StreamReader& s) : Sound(e, s) {}
+			Music(Element& e, std::istream& s) : Sound(e, s) {}
 			Music(Element& e, Binary const& b) : Sound(e, b) {}
 
 			int fadeInTime() const { return (*this)[2]; }
@@ -38,7 +38,7 @@ namespace rpg2k
 		{
 		public:
 			EventState(Element& e) : Array1D(e) {}
-			EventState(Element& e, StreamReader& s) : Array1D(e, s) {}
+			EventState(Element& e, std::istream& s) : Array1D(e, s) {}
 			EventState(Element& e, Binary const& b) : Array1D(e, b) {}
 
 			int mapID() const { return (*this)[11]; }

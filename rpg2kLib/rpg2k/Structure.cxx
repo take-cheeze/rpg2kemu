@@ -73,7 +73,7 @@ namespace rpg2k
 		}
 	} // namespace structure
 
-	bool Binary::isNumber() const
+	bool Binary::isBER() const
 	{
 		if( !size() || ( ( size() > ( sizeof(uint32_t) * CHAR_BIT ) / structure::BER_BIT + 1) ) ) return false;
 
@@ -88,64 +88,68 @@ namespace rpg2k
 	{
 		for(const_iterator i = begin(); i < end(); i++) if( std::iscntrl(*i) ) return false;
 		try {
-			this->toString().toSystem();
+			static_cast<RPG2kString>(*this).toSystem();
 			return true;
 		} catch(debug::AnalyzeException const&) { return false; }
 	}
 
-	RPG2kString Binary::toString() const
+	Binary::operator RPG2kString() const
 	{
 		// rpg2k_assert( isString() ); // will be so slow if enabled
 		return RPG2kString( (char*)pointer(), size() );
 	}
-	int Binary::toNumber() const
+	Binary::operator int() const
 	{
-		rpg2k_assert( isNumber() );
+		rpg2k_assert( isBER() );
 
-		structure::StreamReader s( std::auto_ptr<structure::StreamInterface>(
-			new structure::BinaryReaderNoCopy(*this) ) );
-		return s.ber();
+		std::istringstream iss( static_cast<std::string>(*this) );
+		return structure::readBER(iss);
 	}
-	bool Binary::toBool() const
+	Binary::operator bool() const
 	{
 		rpg2k_assert( size() == sizeof(bool) );
-		switch( toNumber() ) {
+		switch( static_cast<int>(*this) ) {
 			case false: return false;
 			case true : return true ;
 			default: rpg2k_assert(false);
 		}
 		return false;
 	}
-	double Binary::toDouble() const
+	Binary::operator double() const
 	{
 		rpg2k_assert( size() == sizeof(double) );
-		return *( (double*)pointer() );
+		return *( (double*)this->data() );
 	}
 
-	void Binary::setString(RPG2kString const& str)
+	Binary& Binary::operator =(RPG2kString const& str)
 	{
 		resize( str.size() );
-		std::memcpy( this->pointer(), str.c_str(), str.size() );
+		std::memcpy( this->data(), str.c_str(), str.size() );
+		return *this;
 	}
-	void Binary::setNumber(int32_t num)
+	Binary& Binary::operator =(int const num)
 	{
-		resize( structure::berSize(num) );
-		structure::StreamWriter(*this).setBER(num);
+		std::ostringstream s;
+		structure::writeBER(s, num);
+		this->assign( s.str() );
+		return *this;
 	}
-	void Binary::setBool(bool b)
+	Binary& Binary::operator =(bool const b)
 	{
 		resize( sizeof(bool) );
 		(*this)[0] = b;
+		return *this;
 	}
-	void Binary::setDouble(double d)
+	Binary& Binary::operator =(double const d)
 	{
 		resize( sizeof(double) );
-		*( (double*)this->pointer() ) = d;
+		*( (double*)this->data() ) = d;
+		return *this;
 	}
 
-	unsigned Binary::serializedSize() const { return size(); }
-	void Binary::serialize(structure::StreamWriter& s) const
+	unsigned Binary::serializedSize() const { return this->size(); }
+	void Binary::serialize(std::ostream& s) const
 	{
-		s.write(*this);
+		structure::write(s, *this);
 	}
 } // namespace rpg2k

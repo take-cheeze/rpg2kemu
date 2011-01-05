@@ -19,8 +19,6 @@ namespace rpg2k
 		class Music;
 		class EventState;
 		class Sound;
-		class StreamReader;
-		class StreamWriter;
 
 		#if RPG2K_DEBUG
 			typedef boost::ptr_map<unsigned, Element> BaseOfArray1D;
@@ -44,7 +42,7 @@ namespace rpg2k
 		protected:
 			Array1D();
 
-			void init(StreamReader& s);
+			void init(std::istream& s);
 			bool createAt(unsigned pos);
 		public:
 			typedef iterator Iterator;
@@ -55,15 +53,15 @@ namespace rpg2k
 			Array1D(Array1D const& array);
 
 			Array1D(ArrayDefine info);
-			Array1D(ArrayDefine info, StreamReader& s);
+			Array1D(ArrayDefine info, std::istream& s);
 			Array1D(ArrayDefine info, Binary const& b);
 
 			Array1D(Element& e);
-			Array1D(Element& e, StreamReader& s);
+			Array1D(Element& e, std::istream& s);
 			Array1D(Element& e, Binary const& b);
 
 			Array1D(Array2D& owner, unsigned index);
-			Array1D(Array2D& owner, unsigned index, StreamReader& f);
+			Array1D(Array2D& owner, unsigned index, std::istream& f);
 
 			Array1D const& operator =(Array1D const& src);
 
@@ -80,7 +78,7 @@ namespace rpg2k
 
 			unsigned count() const;
 			unsigned serializedSize() const;
-			void serialize(StreamWriter& s) const;
+			void serialize(std::ostream& s) const;
 
 			void substantiate();
 

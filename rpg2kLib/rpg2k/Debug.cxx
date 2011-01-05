@@ -27,6 +27,8 @@
 		void (* pFree )(void *),
 		unsigned short disableFlags
 	);
+#else
+	#error "Demangle not supported"
 #endif
 
 using rpg2k::structure::Array1D;
@@ -139,7 +141,7 @@ namespace rpg2k
 					printEvent(event, ostrm);
 				} catch(...) {}
 			// BER number
-				if( bin.isNumber() ) {
+				if( bin.isBER() ) {
 					ostrm << endl << "BER: ";
 					printInt(bin, ostrm);
 				}

@@ -16,7 +16,6 @@
 
 namespace rpg2k
 {
-	namespace structure { class StreamWriter; }
 
 	namespace model
 	{
@@ -71,7 +70,7 @@ namespace rpg2k
 			void saveAs(SystemString const& filename);
 			void save() { saveAs( fullPath() ); }
 
-			void serialize(structure::StreamWriter& s);
+			void serialize(std::ostream& s);
 		}; // class Base
 
 		class DefineLoader

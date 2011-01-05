@@ -14,8 +14,8 @@ namespace rpg2k
 		, this_(src.this_)
 		{
 			for(const_iterator it = src.begin(); it != src.end(); ++it) {
-				StreamReader stream( structure::serialize( *it->second ) );
-				insert( it->first, std::auto_ptr<Array1D>( new Array1D(*this, it->first, stream) ) );
+				std::istringstream s( static_cast<std::string>( structure::serialize(*it->second) ) );
+				this->insert( it->first, std::auto_ptr<Array1D>( new Array1D(*this, it->first, s) ) );
 			}
 		}
 
@@ -23,7 +23,7 @@ namespace rpg2k
 		: arrayDefine_(info), this_(NULL)
 		{
 		}
-		Array2D::Array2D(ArrayDefine info, StreamReader& s)
+		Array2D::Array2D(ArrayDefine info, std::istream& s)
 		: arrayDefine_(info), this_(NULL)
 		{
 			init(s);
@@ -31,7 +31,7 @@ namespace rpg2k
 		Array2D::Array2D(ArrayDefine info, Binary const& b)
 		: arrayDefine_(info), this_(NULL)
 		{
-			StreamReader s( std::auto_ptr<StreamInterface>( new BinaryReaderNoCopy(b) ) );
+			std::istringstream s( static_cast<std::string>(b) );
 
 			if( isInvalidArray2D(b) ) return; // s.seek(PARTICULAR_DATA_SIZE);
 			init(s);
@@ -41,7 +41,7 @@ namespace rpg2k
 		: arrayDefine_( e.descriptor().arrayDefine() ), this_(&e)
 		{
 		}
-		Array2D::Array2D(Element& e, StreamReader& s)
+		Array2D::Array2D(Element& e, std::istream& s)
 		: arrayDefine_( e.descriptor().arrayDefine() ), this_(&e)
 		{
 			init(s);
@@ -49,15 +49,16 @@ namespace rpg2k
 		Array2D::Array2D(Element& e, Binary const& b)
 		: arrayDefine_( e.descriptor().arrayDefine() ), this_(&e)
 		{
-			StreamReader s( std::auto_ptr<StreamInterface>( new BinaryReaderNoCopy(b) ) );
+			std::istringstream s( static_cast<std::string>(b) );
 
 			if( isInvalidArray2D(b) ) return; // s.seek(PARTICULAR_DATA_SIZE);
 			init(s);
 		}
-		void Array2D::init(StreamReader& s)
+		void Array2D::init(std::istream& s)
 		{
-			for(unsigned i = 0, length = s.ber(); i < length; i++) {
-				unsigned index = s.ber();
+			size_t const length = readBER(s);
+			for(size_t i = 0; i < length; i++) {
+				size_t index = readBER(s);
 				insert( index, std::auto_ptr<Array1D>( new Array1D(*this, index, s) ) );
 			}
 
@@ -134,13 +135,13 @@ namespace rpg2k
 
 			return ret;
 		}
-		void Array2D::serialize(StreamWriter& s) const
+		void Array2D::serialize(std::ostream& s) const
 		{
-			s.setBER( count() );
+			writeBER( s, count() );
 			for(const_iterator it = begin(); it != end(); ++it) {
 				if( !it->second->exists() ) continue;
 
-				s.setBER( it->first );
+				writeBER( s, it->first );
 				it->second->serialize(s);
 			}
 		}

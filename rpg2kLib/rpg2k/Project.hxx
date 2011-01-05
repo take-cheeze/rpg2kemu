@@ -157,7 +157,7 @@ namespace rpg2k
 			uint8_t pass(int chipID);
 			int terrainID(int chipID);
 
-			bool processAction(unsigned eventID, Action::Type act, structure::StreamReader& r);
+			bool processAction(unsigned eventID, Action::Type act, std::istream& is);
 
 			int currentPageID(unsigned eventID);
 			structure::Array1D const* currentPage(structure::Array2D const& pages) const;

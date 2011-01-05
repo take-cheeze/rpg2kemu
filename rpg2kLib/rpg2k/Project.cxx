@@ -619,7 +619,7 @@ namespace rpg2k
 			}
 			return ret;
 		}
-		bool Project::processAction(unsigned const eventID, Action::Type const act, structure::StreamReader& r)
+		bool Project::processAction(unsigned const eventID, Action::Type const act, std::istream& s)
 		{
 			EventState& ev = getLSD().eventState(eventID);
 
@@ -645,13 +645,13 @@ namespace rpg2k
 					ev[13] = ev[13].to<int>() - 1;
 					break;
 				case Action::Move::RANDOM:
-					return processAction( eventID, random( Action::Move::UP, Action::Move::LEFT + 1 ), r );
+					return processAction( eventID, random( Action::Move::UP, Action::Move::LEFT + 1 ), s );
 				case Action::Move::TO_PARTY:
 					break;
 				case Action::Move::FROM_PARTY:
 					break;
 				case Action::Move::A_STEP:
-					return processAction( eventID, Action::Move::UP + ev.eventDir(), r );
+					return processAction( eventID, Action::Move::UP + ev.eventDir(), s );
 				case Action::Face::UP   :
 				case Action::Face::RIGHT:
 				case Action::Face::DOWN :
@@ -671,7 +671,7 @@ namespace rpg2k
 					break;
 				case Action::Turn::RIGHT_OR_LEFT_90:
 					return processAction( eventID,
-						random(2)? Action::Turn::LEFT_90 : Action::Turn::RIGHT_90, r );
+						random(2)? Action::Turn::LEFT_90 : Action::Turn::RIGHT_90, s );
 				case Action::Turn::RANDOM:
 					ev[21] = ( random(4) + 1 ) * 2;
 					break;
@@ -698,18 +698,18 @@ namespace rpg2k
 				case Action::FREQ_DOWN:
 					break;
 				case Action::SWITCH_ON:
-					getLSD().setFlag( r.ber(), true );
+					getLSD().setFlag( structure::readBER(s), true );
 					break;
 				case Action::SWITCH_OFF:
-					getLSD().setFlag( r.ber(), false );
+					getLSD().setFlag( structure::readBER(s), false );
 					break;
 				case Action::CHANGE_CHAR_SET: {
-					RPG2kString charSet( r.ber(), '\0' );
+					RPG2kString charSet( structure::readBER(s), '\0' );
 					for(RPG2kString::iterator it = charSet.begin(); it < charSet.end(); ++it) {
-						*it = r.ber();
+						*it = structure::readBER(s);
 					}
 					ev[73] = charSet;
-					ev[74] = r.ber();
+					ev[74] = structure::readBER(s);
 				} break;
 				case Action::PLAY_SOUND:
 					break;
