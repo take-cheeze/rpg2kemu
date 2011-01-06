@@ -38,7 +38,7 @@ Array1D EventState \n \
  \n \
 	[71]: int dummy; \n \
 	[72]: int dummy; \n \
-	[73]: string charSet; \n \
+	[73]: String charSet; \n \
 	[74]: int charSetPos = 0; \n \
 	[75]: int charSetPat = 1; \n \
 \n \

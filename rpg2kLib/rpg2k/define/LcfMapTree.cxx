@@ -3,7 +3,7 @@
 const char* rpg2k::define::LcfMapTree = (" \
 Array2D Grobal \n \
 { \n \
-	[1]: string name = \"\"; \n \
+	[1]: String name = \"\"; \n \
 	[2]: int parentMapID; \n \
  \n \
 	[3]: int type; \n \
@@ -16,7 +16,7 @@ Array2D Grobal \n \
 	[12]: Music music; \n \
  \n \
 	[21]: int backdropType; \n \
-	[22]: string backdrop; \n \
+	[22]: String backdrop; \n \
  \n \
 	[31]: int teleport; \n \
 	[32]: int escape; \n \

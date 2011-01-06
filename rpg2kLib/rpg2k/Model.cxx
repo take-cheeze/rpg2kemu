@@ -113,7 +113,7 @@ namespace rpg2k
 			isArray_.insert("Array2D");
 
 			#define PP_insert(arg) \
-				defineText_.insert( std::make_pair( RPG2kString( #arg ), define::arg ) )
+				defineText_.insert( std::make_pair( String( #arg ), define::arg ) )
 			PP_insert(EventState);
 			PP_insert(LcfDataBase);
 			PP_insert(LcfMapTree);
@@ -130,7 +130,7 @@ namespace rpg2k
 			return theDefineLoader;
 		}
 
-		boost::ptr_vector<Descriptor> const& DefineLoader::get(RPG2kString const& name)
+		boost::ptr_vector<Descriptor> const& DefineLoader::get(String const& name)
 		{
 			DefineBuffer::const_iterator it = defineBuff_.find(name);
 			if( it == defineBuff_.end() ) {
@@ -139,17 +139,17 @@ namespace rpg2k
 				return ret;
 			} else return it->second;
 		}
-		structure::ArrayDefine DefineLoader::arrayDefine(RPG2kString const& name)
+		structure::ArrayDefine DefineLoader::arrayDefine(String const& name)
 		{
 			return get(name).front().arrayDefine();
 		}
 
-		void DefineLoader::load(boost::ptr_vector<structure::Descriptor>& dst, RPG2kString const& name)
+		void DefineLoader::load(boost::ptr_vector<structure::Descriptor>& dst, String const& name)
 		{
 			DefineText::const_iterator it = defineText_.find(name);
 			rpg2k_assert( it != defineText_.end() );
 			std::istringstream stream(it->second);
-			std::deque<RPG2kString> token;
+			std::deque<String> token;
 			toToken(token, stream);
 			parse(dst, token);
 		}
@@ -159,11 +159,11 @@ namespace rpg2k
 		#define nextToken(curType) prev = curType; continue
 
 		void DefineLoader::parse(boost::ptr_vector<structure::Descriptor>& dst
-		, std::deque<RPG2kString> const& token)
+		, std::deque<String> const& token)
 		{
 			bool blockComment = false;
 			unsigned int streamComment = 0, line = 1, col = 0;
-			RPG2kString typeName;
+			String typeName;
 
 			enum TokenType
 			{
@@ -177,7 +177,7 @@ namespace rpg2k
 			std::stack< ArrayDefineType* > nest;
 
 			// if success continue else error
-			for(std::deque<RPG2kString>::const_iterator it = token.begin(); it < token.end(); ++it) {
+			for(std::deque<String>::const_iterator it = token.begin(); it < token.end(); ++it) {
 				if(*it == "\n") { blockComment = false; line++; continue;
 				} else if(blockComment) { continue;
 				} else if(streamComment) {
@@ -279,9 +279,9 @@ namespace rpg2k
 
 		#undef nextToken
 
-		void DefineLoader::toToken(std::deque<RPG2kString>& token, std::istream& stream)
+		void DefineLoader::toToken(std::deque<String>& token, std::istream& stream)
 		{
-			RPG2kString strBuf;
+			String strBuf;
 
 			while(true) {
 				int buf = stream.get();
@@ -312,7 +312,7 @@ namespace rpg2k
 					switch(buf) {
 						case ' ': case '\t': case '\r': break;
 						default:
-							token.push_back( RPG2kString(1, buf) );
+							token.push_back( String(1, buf) );
 							break;
 					}
 				}

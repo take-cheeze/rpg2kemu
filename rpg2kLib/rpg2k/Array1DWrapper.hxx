@@ -16,12 +16,12 @@ namespace rpg2k
 			Sound(Element& e, std::istream& s) : Array1D(e, s) {}
 			Sound(Element& e, Binary const& b) : Array1D(e, b) {}
 
-			RPG2kString const& fileName() const { return (*this)[1]; }
+			String const& fileName() const { return (*this)[1]; }
 			int volume () const { return (*this)[3]; }
 			int tempo  () const { return (*this)[4]; }
 			int balance() const { return (*this)[5]; }
 
-			operator RPG2kString() const { return fileName(); }
+			operator String() const { return fileName(); }
 		}; // class Sound
 
 		class Music : public Sound
@@ -46,7 +46,7 @@ namespace rpg2k
 			int y() const { return (*this)[13]; }
 			Vector2D position() const { return Vector2D( x(), y() ); }
 
-			RPG2kString const& charSet() const { return (*this)[73]; }
+			String const& charSet() const { return (*this)[73]; }
 			int charSetPos() const { return (*this)[74]; }
 			CharSet::Dir::Type charSetDir() const { return CharSet::Dir::Type( (*this)[75].to<int>() ); }
 			CharSet::Pat::Type charSetPat() const { return CharSet::Pat::MIDDLE; }

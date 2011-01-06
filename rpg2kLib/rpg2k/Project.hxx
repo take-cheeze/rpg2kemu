@@ -45,15 +45,15 @@ namespace rpg2k
 			public:
 				Character(unsigned charID, structure::Array1D const& ldb, structure::Array1D& lsd);
 
-				RPG2kString const& charSet() const { return get<RPG2kString, 11, 3>(); }
-				RPG2kString const& faceSet() const { return get<RPG2kString, 21, 15>(); }
+				String const& charSet() const { return get<String, 11, 3>(); }
+				String const& faceSet() const { return get<String, 21, 15>(); }
 				int charSetPos() const { return get<int, 12, 4>(); }
 				int faceSetPos() const { return get<int, 22, 16>(); }
 
-				RPG2kString const& name() const { return get<RPG2kString, 1, 1>(); }
-				RPG2kString const& title() const { return get<RPG2kString, 2, 2>(); }
-				void setName(RPG2kString const& val) { lsd_[1] = val; }
-				void setTitle(RPG2kString const& val) { lsd_[2] = val; }
+				String const& name() const { return get<String, 1, 1>(); }
+				String const& title() const { return get<String, 2, 2>(); }
+				void setName(String const& val) { lsd_[1] = val; }
+				void setTitle(String const& val) { lsd_[2] = val; }
 
 				std::vector<uint8_t>& condition() { return condition_; }
 				std::vector<uint8_t> const& condition() const { return condition_; }
@@ -106,7 +106,7 @@ namespace rpg2k
 		public:
 			Project(SystemString baseDir=".");
 
-			RPG2kString const& gameTitle() const { return lmt_[0][1]; }
+			String const& gameTitle() const { return lmt_[0][1]; }
 
 			SystemString const& gameDir() const { return baseDir_; }
 
@@ -131,7 +131,7 @@ namespace rpg2k
 
 			int chipSetID();
 			structure::Array1D& chipSet() { return getLDB().chipSet()[chipSetID()]; }
-			RPG2kString panorama();
+			String panorama();
 
 			void newGame();
 
@@ -162,7 +162,7 @@ namespace rpg2k
 			int currentPageID(unsigned eventID);
 			structure::Array1D const* currentPage(structure::Array2D const& pages) const;
 
-			RPG2kString const& systemGraphic() const;
+			String const& systemGraphic() const;
 			Wallpaper::Type wallpaperType() const;
 			Face::Type fontType() const;
 

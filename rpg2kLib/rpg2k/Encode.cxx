@@ -43,12 +43,6 @@ namespace rpg2k
 		toSystem_ = toRPG2k_ = NULL;
 	}
 
-	Encode& Encode::instance()
-	{
-		static Encode theEncode;
-		return theEncode;
-	}
-
 	iconv_t Encode::openConverter(std::string const& to, std::string const& from)
 	{
 		iconv_t ret = ::iconv_open( to.c_str(), from.c_str() );

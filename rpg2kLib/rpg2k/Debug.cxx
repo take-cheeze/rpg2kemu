@@ -119,9 +119,9 @@ namespace rpg2k
 				switch( e.descriptor().type() ) {
 					case ElementType::Binary_: printBinary(e, ostrm); break;
 					case ElementType::Event_ : printEvent (e, ostrm); break;
+					case ElementType::String_: printString(e, ostrm); break;
 					case ElementType::bool_  : printBool  (e.to<bool>(), ostrm); break;
 					case ElementType::double_: printDouble(e, ostrm); break;
-					case ElementType::string_: printString(e, ostrm); break;
 					case ElementType::int_   : printInt   (e, ostrm); break;
 					default: break;
 				}
@@ -208,7 +208,7 @@ namespace rpg2k
 			ostrm << std::showpoint << val;
 			return ostrm;
 		}
-		std::ostream& Tracer::printString(RPG2kString const& val, std::ostream& ostrm)
+		std::ostream& Tracer::printString(String const& val, std::ostream& ostrm)
 		{
 			ostrm << "\"" << val.toSystem() << "\"";
 			return ostrm;

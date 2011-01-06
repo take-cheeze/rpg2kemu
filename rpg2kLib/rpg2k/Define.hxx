@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 
+#include <ostream>
 #include <string>
 
 #include "Config.hxx"
@@ -12,20 +13,23 @@
 namespace rpg2k
 {
 	class SystemString;
-	class RPG2kString : public std::string
+	class String : public std::string
 	{
 	public:
-		explicit RPG2kString() : std::string() {}
-		RPG2kString(std::string const& str) : std::string(str) {}
-		RPG2kString(std::string const& str, size_t pos, size_t n = npos) : std::string(str, pos, n) {}
-		RPG2kString(char const* s, size_t n) : std::string(s, n) {}
-		RPG2kString(char const* s) : std::string(s) {}
-		RPG2kString(size_t n, char c) : std::string(n, c) {}
+		explicit String() : std::string() {}
+		String(std::string const& str) : std::string(str) {}
+		String(std::string const& str, size_t pos, size_t n = npos) : std::string(str, pos, n) {}
+		String(char const* s, size_t n) : std::string(s, n) {}
+		String(char const* s) : std::string(s) {}
+		String(size_t n, char c) : std::string(n, c) {}
 		template<class InputIterator>
-		RPG2kString (InputIterator begin, InputIterator end) : std::string(begin, end) {}
+		String (InputIterator begin, InputIterator end) : std::string(begin, end) {}
 
 		SystemString toSystem() const;
-	}; // class RPG2kString
+
+		std::ostream& serialize(std::ostream& os) const;
+		size_t serializedSize() const { return this->size(); }
+	}; // class String
 	class SystemString : public std::string
 	{
 	public:
@@ -38,7 +42,7 @@ namespace rpg2k
 		template<class InputIterator>
 		SystemString (InputIterator begin, InputIterator end) : std::string(begin, end) {}
 
-		RPG2kString toRPG2k() const;
+		String toRPG2k() const;
 	}; // class SystemString
 
 	namespace

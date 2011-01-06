@@ -17,7 +17,7 @@ namespace rpg2k
 
 			Binary b;
 			readWithSize(s, b);
-			stringArgument_ = static_cast<RPG2kString>(b);
+			stringArgument_ = static_cast<String>(b);
 
 			int argNum = readBER(s);
 

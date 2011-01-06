@@ -5,9 +5,9 @@ Array1D Grobal \n \
 { \n \
 	[11]: Array2D Character \n \
 	{ \n \
-		[1]: string name; \n \
-		[2]: string title; \n \
-		[3]: string charSet; \n \
+		[1]: String name; \n \
+		[2]: String title; \n \
+		[3]: String charSet; \n \
 		[4]: int    charSetPos = 0; \n \
 		[5]: bool semiTrans = false; \n \
  \n \
@@ -16,7 +16,7 @@ Array1D Grobal \n \
 		[ 9]: bool critical     = true; \n \
 		[10]: int  criticalRate = 30  ; \n \
  \n \
-		[15]: string faceSet; \n \
+		[15]: String faceSet; \n \
 		[16]: int    faceSetPos = 0; \n \
  \n \
 		[21]: bool doubleHand    = false; \n \
@@ -42,7 +42,7 @@ Array1D Grobal \n \
 			[2]: int skillID = 1; \n \
 		}; \n \
 		[66]: bool   useOriginalCommand = false; \n \
-		[67]: string originalCommand; \n \
+		[67]: String originalCommand; \n \
  \n \
 		[71]: int    conditionDataNum = 0; \n \
 		[72]: Binary conditionData; \n \
@@ -53,10 +53,10 @@ Array1D Grobal \n \
 	}; \n \
 	[12]: Array2D Skill \n \
 	{ \n \
-		[1]: string name; \n \
-		[2]: string comment; \n \
-		[3]: string messageL1; \n \
-		[4]: string messageL2; \n \
+		[1]: String name; \n \
+		[2]: String comment; \n \
+		[3]: String messageL1; \n \
+		[4]: String messageL2; \n \
 		[7]: int messageFaild; \n \
 		[8]: int type = 0; \n \
  \n \
@@ -91,8 +91,8 @@ Array1D Grobal \n \
 	}; \n \
 	[13]: Array2D Item \n \
 	{ \n \
-		[1]: string name; \n \
-		[2]: string comment; \n \
+		[1]: String name; \n \
+		[2]: String comment; \n \
 		[3]: int type  = 0; \n \
 		[5]: int price = 0; \n \
 		[6]: int usable = 1; \n \
@@ -158,8 +158,8 @@ Array1D Grobal \n \
 	}; \n \
 	[14]: Array2D Enemy \n \
 	{ \n \
-		[1]: string name; \n \
-		[2]: string monster; \n \
+		[1]: String name; \n \
+		[2]: String monster; \n \
 		[3]: int colorTone = 0; \n \
 		[4]: int HP = 10; \n \
 		[5]: int MP = 10; \n \
@@ -203,7 +203,7 @@ Array1D Grobal \n \
 	}; \n \
 	[15]: Array2D EnemyGroup \n \
 	{ \n \
-		[1]: string name; \n \
+		[1]: String name; \n \
 		[2]: Array2D EnemyEnum \n \
 		{ \n \
 			[1]: int enemyID = 1; \n \
@@ -257,10 +257,10 @@ Array1D Grobal \n \
 	}; \n \
 	[16]: Array2D Terrain \n \
 	{ \n \
-		[1]: string name; \n \
+		[1]: String name; \n \
 		[2]: int damage = 0; \n \
 		[3]: int rate = 100; \n \
-		[4]: string backdrop ; \n \
+		[4]: String backdrop ; \n \
 		[5]: bool boat = false; \n \
 		[6]: bool ship = false; \n \
 		[7]: bool airship = true; \n \
@@ -270,7 +270,7 @@ Array1D Grobal \n \
 	}; \n \
 	[17]: Array2D Attribute \n \
 	{ \n \
-		[1]: string name; \n \
+		[1]: String name; \n \
 		[2]: int type = 0; \n \
  \n \
 		[11]: int rateA = 300; \n \
@@ -281,7 +281,7 @@ Array1D Grobal \n \
 	}; \n \
 	[18]: Array2D Condition \n \
 	{ \n \
-		[1]: string name ; \n \
+		[1]: String name ; \n \
 		[2]: int type = 0; \n \
 		[3]: int color = 6; \n \
 		[4]: int priority = 50; \n \
@@ -308,11 +308,11 @@ Array1D Grobal \n \
 		[43]: bool disableMindSkill = false; \n \
 		[44]: int mindRelate = 0; \n \
  \n \
-		[51]: string messageMember ; \n \
-		[52]: string messageEnemy  ; \n \
-		[53]: string messageAlready; \n \
-		[54]: string messageLast   ; \n \
-		[55]: string messageCure   ; \n \
+		[51]: String messageMember ; \n \
+		[52]: String messageEnemy  ; \n \
+		[53]: String messageAlready; \n \
+		[54]: String messageLast   ; \n \
+		[55]: String messageCure   ; \n \
  \n \
 		[61]: int turnHPAmount  = 0; \n \
 		[62]: int turnHPRate    = 0; \n \
@@ -325,8 +325,8 @@ Array1D Grobal \n \
 	}; \n \
 	[19]: Array2D BattleAnime \n \
 	{ \n \
-		[1]: string name ; \n \
-		[2]: string battle ; \n \
+		[1]: String name ; \n \
+		[2]: String battle ; \n \
 		[6]: Array2D Effect \n \
 		{ \n \
 			[1]: int frameID = 0; \n \
@@ -359,8 +359,8 @@ Array1D Grobal \n \
 	}; \n \
 	[20]: Array2D ChipSet \n \
 	{ \n \
-		[1]: string name; \n \
-		[2]: string chipSet; \n \
+		[1]: String name; \n \
+		[2]: String chipSet; \n \
 		[3]: Binary terrainID; // std::vector< uint16_t > \n \
 		[4]: Binary lower; // std::vector< uint8_t > \n \
 		[5]: Binary upper; // std::vector< uint8_t > \n \
@@ -370,152 +370,152 @@ Array1D Grobal \n \
 	}; \n \
 	[21]: Array1D Vocabulary \n \
 	{ \n \
-		[1]:string battleStart; \n \
-		[2]:string firstStrike; \n \
-		[3]:string escapeSuccess; \n \
-		[4]:string escapeFailure; \n \
-		[5]:string battleWon; \n \
-		[6]:string battleLost; \n \
-		[7]:string gainExp; \n \
-		[8]:string earnMoneyBegin; \n \
-		[9]:string earnMoneyEnd; \n \
-		[10]:string itemGet; \n \
-		[11]:string normalAttack; \n \
-		[12]:string criticalAttackParty; \n \
-		[13]:string criticalAttackEnemy; \n \
-		[14]:string defend; \n \
-		[15]:string doNothing; \n \
-		[16]:string chargePower; \n \
-		[17]:string selfDestruct; \n \
-		[18]:string runAway; \n \
-		[19]:string transform; \n \
-		[20]:string   damageToEnemy; \n \
-		[21]:string npDamageToEnemy; \n \
-		[22]:string   damageToParty; \n \
-		[23]:string npDamageToParty; \n \
-		[24]:string skillFailureA; \n \
-		[25]:string skillFailureB; \n \
-		[26]:string skillFailureC; \n \
-		[27]:string physicalAtrackFailure; \n \
-		[28]:string itemUse; \n \
-		[29]:string parameterRecovery; \n \
-		[30]:string parameerUp; \n \
-		[31]:string parameerDown; \n \
-		[32]:string partyAbusorbParameter; \n \
-		[33]:string enemyAbusorbParameter; \n \
-		[34]:string attributeGaurdUp; \n \
-		[35]:string attributeGaurdDown; \n \
-		[36]:string levelUp; \n \
-		[37]:string skillMastered; \n \
+		[1]:String battleStart; \n \
+		[2]:String firstStrike; \n \
+		[3]:String escapeSuccess; \n \
+		[4]:String escapeFailure; \n \
+		[5]:String battleWon; \n \
+		[6]:String battleLost; \n \
+		[7]:String gainExp; \n \
+		[8]:String earnMoneyBegin; \n \
+		[9]:String earnMoneyEnd; \n \
+		[10]:String itemGet; \n \
+		[11]:String normalAttack; \n \
+		[12]:String criticalAttackParty; \n \
+		[13]:String criticalAttackEnemy; \n \
+		[14]:String defend; \n \
+		[15]:String doNothing; \n \
+		[16]:String chargePower; \n \
+		[17]:String selfDestruct; \n \
+		[18]:String runAway; \n \
+		[19]:String transform; \n \
+		[20]:String   damageToEnemy; \n \
+		[21]:String npDamageToEnemy; \n \
+		[22]:String   damageToParty; \n \
+		[23]:String npDamageToParty; \n \
+		[24]:String skillFailureA; \n \
+		[25]:String skillFailureB; \n \
+		[26]:String skillFailureC; \n \
+		[27]:String physicalAtrackFailure; \n \
+		[28]:String itemUse; \n \
+		[29]:String parameterRecovery; \n \
+		[30]:String parameerUp; \n \
+		[31]:String parameerDown; \n \
+		[32]:String partyAbusorbParameter; \n \
+		[33]:String enemyAbusorbParameter; \n \
+		[34]:String attributeGaurdUp; \n \
+		[35]:String attributeGaurdDown; \n \
+		[36]:String levelUp; \n \
+		[37]:String skillMastered; \n \
  \n \
-		[41]:string selectActiion; // shop A \n \
-		[42]:string selectActiionSecond; \n \
-		[43]:string buy; \n \
-		[44]:string sell; \n \
-		[45]:string cancel; \n \
-		[46]:string selectBuyingItem; \n \
-		[47]:string buyingItemNum; \n \
-		[48]:string endBuy; \n \
-		[49]:string selectSellingItem; \n \
-		[50]:string sellingItemNum; \n \
-		[51]:string endSell; \n \
+		[41]:String selectActiion; // shop A \n \
+		[42]:String selectActiionSecond; \n \
+		[43]:String buy; \n \
+		[44]:String sell; \n \
+		[45]:String cancel; \n \
+		[46]:String selectBuyingItem; \n \
+		[47]:String buyingItemNum; \n \
+		[48]:String endBuy; \n \
+		[49]:String selectSellingItem; \n \
+		[50]:String sellingItemNum; \n \
+		[51]:String endSell; \n \
  \n \
-		[54]:string v54 ; // shop B \n \
-		[55]:string v55 ; \n \
-		[56]:string v56 ; \n \
-		[57]:string v57 ; \n \
-		[58]:string v58 ; \n \
-		[59]:string v59 ; \n \
-		[60]:string v60 ; \n \
-		[61]:string v61 ; \n \
-		[62]:string v62 ; \n \
-		[63]:string v63 ; \n \
-		[64]:string v64 ; \n \
+		[54]:String v54 ; // shop B \n \
+		[55]:String v55 ; \n \
+		[56]:String v56 ; \n \
+		[57]:String v57 ; \n \
+		[58]:String v58 ; \n \
+		[59]:String v59 ; \n \
+		[60]:String v60 ; \n \
+		[61]:String v61 ; \n \
+		[62]:String v62 ; \n \
+		[63]:String v63 ; \n \
+		[64]:String v64 ; \n \
  \n \
-		[67]:string v67 ; // shop C \n \
-		[68]:string v68 ; \n \
-		[69]:string v69 ; \n \
-		[70]:string v70 ; \n \
-		[71]:string v71 ; \n \
-		[72]:string v72 ; \n \
-		[73]:string v73 ; \n \
-		[74]:string v74 ; \n \
-		[75]:string v75 ; \n \
-		[76]:string v76 ; \n \
-		[77]:string v77 ; \n \
+		[67]:String v67 ; // shop C \n \
+		[68]:String v68 ; \n \
+		[69]:String v69 ; \n \
+		[70]:String v70 ; \n \
+		[71]:String v71 ; \n \
+		[72]:String v72 ; \n \
+		[73]:String v73 ; \n \
+		[74]:String v74 ; \n \
+		[75]:String v75 ; \n \
+		[76]:String v76 ; \n \
+		[77]:String v77 ; \n \
  \n \
-		[80]:string mes0; // hotel A \n \
-		[81]:string mes1; \n \
-		[82]:string mes2; \n \
-		[83]:string yes; \n \
-		[84]:string no; \n \
-		[85]:string v85 ; // hotel B \n \
-		[86]:string v86 ; \n \
-		[87]:string v87 ; \n \
-		[88]:string v88 ; \n \
-		[89]:string v89 ; \n \
+		[80]:String mes0; // hotel A \n \
+		[81]:String mes1; \n \
+		[82]:String mes2; \n \
+		[83]:String yes; \n \
+		[84]:String no; \n \
+		[85]:String v85 ; // hotel B \n \
+		[86]:String v86 ; \n \
+		[87]:String v87 ; \n \
+		[88]:String v88 ; \n \
+		[89]:String v89 ; \n \
  \n \
-		[92]:string itemOwnedNum; \n \
-		[93]:string itemEquipedNum; \n \
+		[92]:String itemOwnedNum; \n \
+		[93]:String itemEquipedNum; \n \
  \n \
-		[95]:string moneyName; \n \
+		[95]:String moneyName; \n \
  \n \
-		[101]:string battle; \n \
-		[102]:string autoAction; \n \
-		[103]:string escape; \n \
-		[104]:string attack; \n \
-		[105]:string defend; \n \
-		[106]:string useItem; \n \
-		[107]:string useSkill; \n \
-		[108]:string equip; \n \
+		[101]:String battle; \n \
+		[102]:String autoAction; \n \
+		[103]:String escape; \n \
+		[104]:String attack; \n \
+		[105]:String defend; \n \
+		[106]:String useItem; \n \
+		[107]:String useSkill; \n \
+		[108]:String equip; \n \
  \n \
-		[110]:string save; \n \
+		[110]:String save; \n \
  \n \
-		[112]:string discardCurrent; \n \
+		[112]:String discardCurrent; \n \
  \n \
-		[114]:string newGame; \n \
-		[115]:string continue; \n \
+		[114]:String newGame; \n \
+		[115]:String continue; \n \
  \n \
-		[117]:string quit; \n \
+		[117]:String quit; \n \
  \n \
-		[123]:string level; \n \
-		[124]:string hp; \n \
-		[125]:string mp; \n \
-		[126]:string normalCondition; \n \
-		[127]:string expShort; \n \
-		[128]:string levelShort; \n \
-		[129]:string hpShort; \n \
-		[130]:string mpShort; \n \
-		[131]:string usingMp; \n \
-		[132]:string attack; \n \
-		[133]:string defence; \n \
-		[134]:string mind; \n \
-		[135]:string speed; \n \
-		[136]:string weapon; \n \
-		[137]:string shield; \n \
-		[138]:string armor; \n \
-		[139]:string helmet; \n \
-		[140]:string other; \n \
+		[123]:String level; \n \
+		[124]:String hp; \n \
+		[125]:String mp; \n \
+		[126]:String normalCondition; \n \
+		[127]:String expShort; \n \
+		[128]:String levelShort; \n \
+		[129]:String hpShort; \n \
+		[130]:String mpShort; \n \
+		[131]:String usingMp; \n \
+		[132]:String attack; \n \
+		[133]:String defence; \n \
+		[134]:String mind; \n \
+		[135]:String speed; \n \
+		[136]:String weapon; \n \
+		[137]:String shield; \n \
+		[138]:String armor; \n \
+		[139]:String helmet; \n \
+		[140]:String other; \n \
  \n \
-		[146]:string saveSelectMessage; \n \
-		[147]:string loadSelectMessage; \n \
-		[148]:string saveDataPrefix; \n \
+		[146]:String saveSelectMessage; \n \
+		[147]:String loadSelectMessage; \n \
+		[148]:String saveDataPrefix; \n \
  \n \
-		[151]:string remindDiscarding; \n \
-		[152]:string yes; \n \
-		[153]:string no ; \n \
+		[151]:String remindDiscarding; \n \
+		[152]:String yes; \n \
+		[153]:String no ; \n \
 	}; \n \
 	[22]: Array1D System \n \
 	{ \n \
-		[11]: string boat; \n \
-		[12]: string ship; \n \
-		[13]: string airship; \n \
+		[11]: String boat; \n \
+		[12]: String ship; \n \
+		[13]: String airship; \n \
 		[14]: int boatPos; \n \
 		[15]: int shipPos; \n \
 		[16]: int airshipPos; \n \
-		[17]: string title; \n \
-		[18]: string gameOver; \n \
-		[19]: string system; \n \
+		[17]: String title; \n \
+		[18]: String gameOver; \n \
+		[19]: String system; \n \
  \n \
 		[21]: int memberNum = 0; \n \
 		[22]: Binary member; \n \
@@ -555,7 +555,7 @@ Array1D Grobal \n \
 		[81]: int dummy; \n \
 		[82]: bool dummy; \n \
 		[83]: int dummy; \n \
-		[84]: string defBackdrop; \n \
+		[84]: String defBackdrop; \n \
 		[85]: Array2D dummy \n \
 		{ \n \
 /* \n \
@@ -574,15 +574,15 @@ Array1D Grobal \n \
 	}; \n \
 	[23]: Array2D Switch \n \
 	{ \n \
-		[1]: string name ; \n \
+		[1]: String name ; \n \
 	}; \n \
 	[24]: Array2D Variable \n \
 	{ \n \
-		[1]: string name ; \n \
+		[1]: String name ; \n \
 	}; \n \
 	[25]: Array2D CommonEvent \n \
 	{ \n \
-		[1]: string name ; \n \
+		[1]: String name ; \n \
  \n \
 		[11]: int startType = 5; \n \
 		[12]: bool needSwitch = false; \n \

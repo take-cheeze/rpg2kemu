@@ -76,29 +76,29 @@ namespace rpg2k
 		class DefineLoader
 		{
 		private:
-			typedef std::map< RPG2kString, boost::ptr_vector<structure::Descriptor> > DefineBuffer;
+			typedef std::map< String, boost::ptr_vector<structure::Descriptor> > DefineBuffer;
 			DefineBuffer defineBuff_;
-			typedef std::map<RPG2kString, const char*> DefineText;
+			typedef std::map<String, const char*> DefineText;
 			DefineText defineText_;
-			std::set<RPG2kString> isArray_;
+			std::set<String> isArray_;
 		protected:
-			void parse(boost::ptr_vector<structure::Descriptor>& dst, std::deque<RPG2kString> const& token);
-			void load(boost::ptr_vector<structure::Descriptor>& dst, RPG2kString const& name);
+			void parse(boost::ptr_vector<structure::Descriptor>& dst, std::deque<String> const& token);
+			void load(boost::ptr_vector<structure::Descriptor>& dst, String const& name);
 
 			DefineLoader();
 			DefineLoader(DefineLoader const& dl);
 		public:
 			static DefineLoader& instance();
 
-			boost::ptr_vector<structure::Descriptor> const& get(RPG2kString const& name);
-			structure::ArrayDefine arrayDefine(RPG2kString const& name);
+			boost::ptr_vector<structure::Descriptor> const& get(String const& name);
+			structure::ArrayDefine arrayDefine(String const& name);
 
-			bool isArray(RPG2kString const& typeName) const
+			bool isArray(String const& typeName) const
 			{
 				return isArray_.find(typeName) != isArray_.end();
 			}
 
-			static void toToken(std::deque<RPG2kString>& token, std::istream& stream);
+			static void toToken(std::deque<String>& token, std::istream& stream);
 		}; // class DefineLoader
 	} // namespace model
 } // namespace rpg2k

@@ -51,11 +51,15 @@ namespace rpg2k
 		return ( random(max - min + 1) + min );
 	}
 
-	SystemString RPG2kString::toSystem() const
+	SystemString String::toSystem() const
 	{
 		return Encode::instance().toSystem(*this);
 	}
-	 RPG2kString SystemString::toRPG2k () const
+	std::ostream& String::serialize(std::ostream& os) const
+	{
+		return os.write( this->c_str(), this->size() );
+	}
+	String SystemString::toRPG2k () const
 	{
 		return Encode::instance().toRPG2k (*this);
 	}
@@ -88,15 +92,15 @@ namespace rpg2k
 	{
 		for(const_iterator i = begin(); i < end(); i++) if( std::iscntrl(*i) ) return false;
 		try {
-			static_cast<RPG2kString>(*this).toSystem();
+			static_cast<String>(*this).toSystem();
 			return true;
 		} catch(debug::AnalyzeException const&) { return false; }
 	}
 
-	Binary::operator RPG2kString() const
+	Binary::operator String() const
 	{
 		// rpg2k_assert( isString() ); // will be so slow if enabled
-		return RPG2kString( (char*)pointer(), size() );
+		return String( (char*)pointer(), size() );
 	}
 	Binary::operator int() const
 	{
@@ -121,7 +125,7 @@ namespace rpg2k
 		return *( (double*)this->data() );
 	}
 
-	Binary& Binary::operator =(RPG2kString const& str)
+	Binary& Binary::operator =(String const& str)
 	{
 		resize( str.size() );
 		std::memcpy( this->data(), str.c_str(), str.size() );

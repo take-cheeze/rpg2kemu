@@ -24,8 +24,10 @@ namespace rpg2k
 
 			union {
 				#define PP_types(TYPE) TYPE* TYPE##_;
-				PP_basicTypes(PP_types)
 				PP_rpg2kTypes(PP_types)
+				#undef PP_types
+				#define PP_types(TYPE) TYPE TYPE##_;
+				PP_basicTypes(PP_types)
 				#undef PP_types
 			} impl_;
 

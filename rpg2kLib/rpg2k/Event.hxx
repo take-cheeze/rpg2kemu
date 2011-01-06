@@ -23,7 +23,7 @@ namespace rpg2k
 		private:
 			unsigned code_, nest_;
 
-			RPG2kString stringArgument_;
+			String stringArgument_;
 			std::vector<int32_t> argument_;
 		public:
 			Instruction();
@@ -35,9 +35,9 @@ namespace rpg2k
 			unsigned nest() const { return nest_; }
 			void setNest(unsigned n) { nest_ = n; }
 
-			RPG2kString const& string() const { return stringArgument_; }
-			void setString(RPG2kString const& str) { stringArgument_ = str; }
-			operator RPG2kString const&() const { return stringArgument_; }
+			String const& string() const { return stringArgument_; }
+			void setString(String const& str) { stringArgument_ = str; }
+			operator String const&() const { return stringArgument_; }
 
 			std::vector<int32_t> const& args() const { return argument_; }
 			std::vector<int32_t> args() { return argument_; }

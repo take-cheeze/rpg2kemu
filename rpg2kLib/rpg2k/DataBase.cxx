@@ -40,7 +40,7 @@ namespace rpg2k
 				if( it->first >= vocabulary_.size() ) {
 					vocabulary_.resize(it->first + 1);
 				}
-				vocabulary_[it->first] = it->second->to_string();
+				vocabulary_[it->first] = it->second->toString();
 			}
 		}
 		void DataBase::saveImpl()
@@ -57,7 +57,7 @@ namespace rpg2k
 			}
 		// saving vocabulary
 			structure::Array1D& vocDst = (*this)[21];
-			for(std::vector<RPG2kString>::const_iterator it = vocabulary_.begin()
+			for(std::vector<String>::const_iterator it = vocabulary_.begin()
 			; it < vocabulary_.end(); ++it) {
 				if( !it->empty() ) { vocDst[ it - vocabulary_.begin() ] = *it; }
 			}
@@ -77,7 +77,7 @@ namespace rpg2k
 			return it->second;
 		}
 
-		RPG2kString const& DataBase::vocabulary(unsigned const index) const
+		String const& DataBase::vocabulary(unsigned const index) const
 		{
 			rpg2k_assert( index < vocabulary_.size() );
 			// rpg2k_assert( !vocabulary_[index].empty() );

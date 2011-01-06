@@ -69,12 +69,12 @@ namespace rpg2k
 		bool isBER() const;
 		bool isString() const;
 	// operator wrap of converter
-		operator RPG2kString() const;
+		operator String() const;
 		operator int   () const;
 		operator bool  () const;
 		operator double() const;
 	// operator wrap of setter
-		Binary& operator =(RPG2kString const& src);
+		Binary& operator =(String const& src);
 		Binary& operator =(int    src);
 		Binary& operator =(bool   src);
 		Binary& operator =(double src);

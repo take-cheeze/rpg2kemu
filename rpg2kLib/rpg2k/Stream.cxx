@@ -6,21 +6,20 @@ namespace rpg2k
 {
 	namespace structure
 	{
-		RPG2kString readHeader(std::istream& is)
+		String readHeader(std::istream& is)
 		{
 			is.seekg(0, std::ios_base::beg);
 			Binary buf;
 			readWithSize(is, buf);
-			return static_cast<RPG2kString>(buf);
+			return static_cast<String>(buf);
 		}
-		std::ostream& writeHeader(std::ostream& os, RPG2kString const& header)
+		std::ostream& writeHeader(std::ostream& os, String const& header)
 		{
 			os.seekp(0, std::ios_base::beg);
-			writeWithSize(os, header);
-			return os;
+			return writeWithSize(os, header);
 		}
 
-		bool checkHeader(std::istream& is,  RPG2kString const& header)
+		bool checkHeader(std::istream& is,  String const& header)
 		{
 			return( readHeader(is) == header );
 		}
@@ -46,8 +45,7 @@ namespace rpg2k
 			clog << ";" << endl;
 			 */
 		// write data
-			os.write( reinterpret_cast<char const*>(buff), size);
-			return os;
+			return os.write( reinterpret_cast<char const*>(buff), size);
 		}
 		unsigned readBER(std::istream& is)
 		{
@@ -65,25 +63,21 @@ namespace rpg2k
 		std::ostream& writeWithSize(std::ostream& os, Binary const& b)
 		{
 			writeBER( os, b.size() );
-			os.write( reinterpret_cast<char const*>( b.data() ), b.size() );
-			return os;
+			return write(os, b);
 		}
 		std::istream& readWithSize(std::istream& is, Binary& dst)
 		{
 			dst.resize( readBER(is) );
-			is.read( reinterpret_cast<char*>( dst.data() ), dst.size() );
-			return is;
+			return read(is, dst);
 		}
 
 		std::ostream& write(std::ostream& os, Binary const& b)
 		{
-			os.write( reinterpret_cast<char const*>( b.data() ), b.size() );
-			return os;
+			return os.write( reinterpret_cast<char const*>( b.data() ), b.size() );
 		}
 		std::istream& read(std::istream& is, Binary& dst)
 		{
-			is.read( reinterpret_cast<char*>( dst.data() ), dst.size() );
-			return is;
+			return is.read( reinterpret_cast<char*>( dst.data() ), dst.size() );
 		}
 	} // namespace structure
 } // namespace rpg2k

@@ -1,4 +1,4 @@
-#include <rpg2k/Project.cxx>
+#include <rpg2kLib.hxx>
 
 
 namespace rpg2k

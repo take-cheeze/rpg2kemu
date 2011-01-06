@@ -294,7 +294,7 @@ namespace rpg2k
 			lsd.character()[charID][61].toBinary() = vec;
 		}
 
-		RPG2kString const& Project::systemGraphic() const
+		String const& Project::systemGraphic() const
 		{
 			Array1D const& sys = getLSD()[101];
 
@@ -333,7 +333,7 @@ namespace rpg2k
 				dst[13] = startLMT[10*i + 3].to<int>();
 				dst[21] = int(CharSet::Dir::DOWN);
 				dst[22] = int(CharSet::Dir::DOWN);
-				dst[73] = sysLDB[10+i].to_string();
+				dst[73] = sysLDB[10+i].toString();
 				if( sysLDB[10+i + 3].exists() ) dst[74] = sysLDB[10+i + 3].to<int>();
 			}
 		// move to start point
@@ -417,17 +417,17 @@ namespace rpg2k
 				dst[21] = src[23].to<int>(); // direction
 				dst[22] = src[23].to<int>();
 
-				dst[73] = src[21].to_string(); // charSet
+				dst[73] = src[21].toString(); // charSet
 				dst[74] = src[22].to<int>(); // charSetPos
 				dst[75] = src[24].to<int>(); // charSetPat
 			}
 		}
 
-		RPG2kString Project::panorama()
+		String Project::panorama()
 		{
 			if( getLSD()[111].toArray1D().exists(32) ) return getLSD()[111].toArray1D()[32];
 			else if( getLMU()[31].to<bool>() ) return getLMU()[32];
-			else return RPG2kString();
+			else return String();
 		}
 
 		int Project::chipSetID()
@@ -704,8 +704,8 @@ namespace rpg2k
 					getLSD().setFlag( structure::readBER(s), false );
 					break;
 				case Action::CHANGE_CHAR_SET: {
-					RPG2kString charSet( structure::readBER(s), '\0' );
-					for(RPG2kString::iterator it = charSet.begin(); it < charSet.end(); ++it) {
+					String charSet( structure::readBER(s), '\0' );
+					for(String::iterator it = charSet.begin(); it < charSet.end(); ++it) {
 						*it = structure::readBER(s);
 					}
 					ev[73] = charSet;

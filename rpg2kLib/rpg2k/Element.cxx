@@ -91,7 +91,7 @@ namespace rpg2k
 				#define PP_enum(TYPE) \
 					case ElementType::TYPE##_: { \
 						Binary bin; \
-						bin = *impl_.TYPE##_; \
+						bin = impl_.TYPE##_; \
 						write(s, bin); \
 					} break;
 				PP_basicTypes(PP_enum)
@@ -110,7 +110,7 @@ namespace rpg2k
 				#define PP_enum(TYPE) \
 					case ElementType::TYPE##_: { \
 						Binary bin; \
-						bin = *impl_.TYPE##_; \
+						bin = impl_.TYPE##_; \
 						return bin.size(); \
 					}
 				PP_basicTypes(PP_enum)
@@ -130,8 +130,13 @@ namespace rpg2k
 					case ElementType::TYPE##_: \
 						impl_.TYPE##_ = new TYPE( *e.impl_.TYPE##_ ); \
 						break;
-				PP_basicTypes(PP_enum)
 				PP_rpg2kTypes(PP_enum)
+				#undef PP_enum
+				#define PP_enum(TYPE) \
+					case ElementType::TYPE##_: \
+						impl_.TYPE##_ = descriptor().hasDefault()? descriptor() : TYPE(); \
+						break;
+				PP_basicTypes(PP_enum)
 				#undef PP_enum
 			}
 		}
@@ -143,7 +148,7 @@ namespace rpg2k
 			if( descriptor_->hasDefault() ) switch( descriptor_->type() ) {
 				#define PP_enum(TYPE) \
 					case ElementType::TYPE##_: \
-						impl_.TYPE##_ = new TYPE(*descriptor_); \
+						impl_.TYPE##_ = descriptor().hasDefault()? descriptor() : TYPE(); \
 						break;
 				PP_basicTypes(PP_enum)
 				#undef PP_enum
@@ -166,11 +171,17 @@ namespace rpg2k
 
 				default: rpg2k_analyze_assert(false); break;
 			} else switch( descriptor_->type() ) {
-				PP_basicTypes(PP_enumNoDefault)
 				PP_enumNoDefault(BerEnum)
 				PP_enumNoDefault(Binary)
 				PP_enumNoDefault(Event)
 				#undef PP_enumNoDefault
+
+				#define PP_enum(TYPE) \
+					case ElementType::TYPE##_: \
+						impl_.TYPE##_ = descriptor().hasDefault()? descriptor() : TYPE(); \
+						break;
+				PP_basicTypes(PP_enum)
+				#undef PP_enum
 
 				default: rpg2k_analyze_assert(false); break;
 			}
@@ -190,12 +201,19 @@ namespace rpg2k
 
 				#define PP_enum(TYPE) \
 					case ElementType::TYPE##_: \
-						impl_.TYPE##_ = new TYPE(b); \
+						impl_.TYPE##_ = descriptor().hasDefault()? descriptor() : TYPE(); \
 						break;
 				PP_basicTypes(PP_enum)
+				#undef PP_enum
+
+				#define PP_enum(TYPE) \
+					case ElementType::TYPE##_: \
+						impl_.TYPE##_ = new TYPE(b); \
+						break;
 				PP_enum(BerEnum)
 				PP_enum(Binary)
 				PP_enum(Event)
+				PP_enum(String)
 				#undef PP_enum
 			} else {
 				binData_ = b;
@@ -297,9 +315,13 @@ namespace rpg2k
 
 			if( isDefined() ) switch( descriptor_->type() ) {
 				#define PP_enum(TYPE) case ElementType::TYPE##_: delete impl_.TYPE##_; break;
-				PP_basicTypes(PP_enum)
 				PP_rpg2kTypes(PP_enum)
 				#undef PP_enum
+				#define PP_enum(TYPE) case ElementType::TYPE##_:
+				PP_basicTypes(PP_enum)
+				#undef PP_enum
+					break;
+				default: rpg2k_assert(false); break;
 			}
 		}
 
@@ -310,8 +332,13 @@ namespace rpg2k
 					case ElementType::TYPE##_: \
 						(*impl_.TYPE##_) = (*src.impl_.TYPE##_); \
 						break;
-				PP_basicTypes(PP_enum)
 				PP_rpg2kTypes(PP_enum)
+				#undef PP_enum
+				#define PP_enum(TYPE) \
+					case ElementType::TYPE##_: \
+						impl_.TYPE##_ = src.impl_.TYPE##_; \
+						break;
+				PP_basicTypes(PP_enum)
 				#undef PP_enum
 				default: rpg2k_assert(false); break;
 			} else binData_ = src.binData_;
@@ -351,7 +378,7 @@ namespace rpg2k
 			if( descriptor_ && descriptor_->hasDefault() ) switch( descriptor_->type() ) {
 				#define PP_enum(TYPE) \
 					case ElementType::TYPE##_: \
-						if( (*impl_.TYPE##_) == static_cast<TYPE const&>(*descriptor_) ) { \
+						if( (impl_.TYPE##_) == static_cast<TYPE const&>(*descriptor_) ) { \
 							exists_ = false; \
 							return; \
 						} \
@@ -398,8 +425,25 @@ namespace rpg2k
 				rpg2k_assert( impl_.TYPE##_ ); \
 				return *impl_.TYPE##_; \
 			}
-		PP_basicTypes(PP_castOperator)
 		PP_rpg2kTypes(PP_castOperator)
+		#undef PP_castOperator
+
+		#define PP_castOperator(TYPE) \
+			Element::operator TYPE const&() const \
+			{ \
+				rpg2k_assert( this->isDefined() ); \
+				rpg2k_assert( descriptor_->type() == ElementType::TYPE##_ ); \
+				rpg2k_assert( impl_.TYPE##_ ); \
+				return impl_.TYPE##_; \
+			} \
+			Element::operator TYPE&() \
+			{ \
+				rpg2k_assert( this->isDefined() ); \
+				rpg2k_assert( descriptor_->type() == ElementType::TYPE##_ ); \
+				rpg2k_assert( impl_.TYPE##_ ); \
+				return impl_.TYPE##_; \
+			}
+		PP_basicTypes(PP_castOperator)
 		#undef PP_castOperator
 	} // namespace structure
 } // namespace rpg2k

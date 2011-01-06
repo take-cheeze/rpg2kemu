@@ -12,9 +12,9 @@ namespace rpg2k
 {
 	namespace structure
 	{
-		bool checkHeader(std::istream& is, RPG2kString const& header);
-		RPG2kString readHeader(std::istream& is);
-		std::ostream& writeHeader(std::ostream& os, RPG2kString const& header);
+		bool checkHeader(std::istream& is, String const& header);
+		String readHeader(std::istream& is);
+		std::ostream& writeHeader(std::ostream& os, String const& header);
 
 		template<class T>
 		Binary serialize(T const& src)

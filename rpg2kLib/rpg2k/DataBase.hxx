@@ -19,7 +19,7 @@ namespace rpg2k
 			typedef std::map< unsigned, std::vector< std::vector<uint8_t> > > ChipFlag;
 			ChipFlag chipFlag_;
 
-			std::vector<RPG2kString> vocabulary_;
+			std::vector<String> vocabulary_;
 
 			virtual void loadImpl();
 			virtual void saveImpl();
@@ -61,7 +61,7 @@ namespace rpg2k
 			structure::Array2D const& variable() const { return (*this)[24]; }
 			structure::Array2D const& commonEvent() const { return (*this)[25]; }
 
-			RPG2kString const& vocabulary(unsigned index) const;
+			String const& vocabulary(unsigned index) const;
 
 			std::vector<uint16_t> const& terrain(unsigned id) const;
 			std::vector<uint8_t> const& chipFlag(unsigned id, ChipSet::Type t) const;

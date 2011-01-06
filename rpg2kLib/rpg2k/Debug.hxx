@@ -63,7 +63,7 @@ namespace rpg2k
 			static std::ostream& printInt   (int    val, PP_defaultOutput);
 			static std::ostream& printBool  (bool   val, PP_defaultOutput);
 			static std::ostream& printDouble(double val, PP_defaultOutput);
-			static std::ostream& printString(RPG2kString const& val, PP_defaultOutput);
+			static std::ostream& printString(String const& val, PP_defaultOutput);
 			static std::ostream& printEvent (structure::Event const& val, PP_defaultOutput);
 			static std::ostream& printInstruction(structure::Instruction const& inst, PP_defaultOutput, bool indent = false);
 			static std::ostream& printBinary(Binary const& val, PP_defaultOutput);

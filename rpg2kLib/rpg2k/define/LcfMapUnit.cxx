@@ -10,7 +10,7 @@ Array1D Grobal \n \
 	[11]: int scrollType; \n \
  \n \
 	[31]: bool usePanorama = false; \n \
-	[32]: string panorama; \n \
+	[32]: String panorama; \n \
 	[33]: bool scrollPanoramaH = false; \n \
 	[34]: bool scrollPanoramaV = false; \n \
 	[35]: bool autoScrollPanoramaH = false; \n \
@@ -23,7 +23,7 @@ Array1D Grobal \n \
  \n \
 	[81]: Array2D Event \n \
 	{ \n \
-		[1]: string name; \n \
+		[1]: String name; \n \
 		[2]: int x = 0; \n \
 		[3]: int y = 0; \n \
 		// [4]: \n \
@@ -41,7 +41,7 @@ Array1D Grobal \n \
 				[8]: int timerLeft = 0; \n \
 			}; \n \
  \n \
-			[21]: string charSet; \n \
+			[21]: String charSet; \n \
 			[22]: int charSetPos = 0; \n \
 			[23]: int charSetdir = 2; \n \
 			[24]: int charSetPat = 1; \n \

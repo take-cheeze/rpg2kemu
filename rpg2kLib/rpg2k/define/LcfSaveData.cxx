@@ -7,17 +7,17 @@ Array1D Grobal \n \
 	{ \n \
 		[1]: double timeStamp; \n \
  \n \
-		[11]: string name; \n \
+		[11]: String name; \n \
 		[12]: int level = 1; \n \
 		[13]: int HP; \n \
  \n \
-		[21]: string faceSet1; \n \
+		[21]: String faceSet1; \n \
 		[22]: int faceSetPos1 = 0; \n \
-		[23]: string faceSet2; \n \
+		[23]: String faceSet2; \n \
 		[24]: int faceSetPos2 = 0; \n \
-		[25]: string faceSet3; \n \
+		[25]: String faceSet3; \n \
 		[26]: int faceSetPos3 = 0; \n \
-		[27]: string faceSet4; \n \
+		[27]: String faceSet4; \n \
 		[28]: int faceSetPos4 = 0; \n \
 	}; \n \
  \n \
@@ -27,7 +27,7 @@ Array1D Grobal \n \
  \n \
 		[11]: int dummy; \n \
  \n \
-		[21]: string system; \n \
+		[21]: String system; \n \
 		[22]: int wallpaper; \n \
 		[23]: int font; \n \
  \n \
@@ -41,7 +41,7 @@ Array1D Grobal \n \
 		[43]: bool doNotHideParty = true; \n \
 		[44]: bool moveWhenWait = false; \n \
  \n \
-		[51]: string faceSet; \n \
+		[51]: String faceSet; \n \
 		[52]: int faceSetPos = 0; \n \
 		[53]: int side = 0; \n \
 		[54]: bool flip = false; \n \
@@ -84,7 +84,7 @@ Array1D Grobal \n \
 		[122]: bool canEscape; \n \
 		[123]: bool canSave; \n \
 		[124]: bool canOpenMenu; \n \
-		[125]: string backdrop; \n \
+		[125]: String backdrop; \n \
  \n \
 		[131]: int saveTime; \n \
 	}; \n \
@@ -109,7 +109,7 @@ Array1D Grobal \n \
  \n \
 	[103]: Array2D Picture \n \
 	{ \n \
-		[1]: string picture; \n \
+		[1]: String picture; \n \
 		[2]: double startX = 160; \n \
 		[3]: double startY = 120; \n \
 		[4]: double currentX = 160; \n \
@@ -148,15 +148,15 @@ Array1D Grobal \n \
  \n \
 	[108]: Array2D Character \n \
 	{ \n \
-		[1]: string name; \n \
-		[2]: string title; \n \
+		[1]: String name; \n \
+		[2]: String title; \n \
 		[3]: bool semiTrans; \n \
  \n \
-		[11]: string charSet; \n \
+		[11]: String charSet; \n \
 		[12]: int charSetPos; \n \
 		[13]: bool trans; \n \
  \n \
-		[21]: string faceSet; \n \
+		[21]: String faceSet; \n \
 		[22]: int faceSetPos; \n \
  \n \
 		[31]: int level; \n \
@@ -230,7 +230,7 @@ Array1D Grobal \n \
 		[22]: Binary replaceUpper; \n \
  \n \
 		[31]: bool usePanorama; \n \
-		[32]: string panorama; \n \
+		[32]: String panorama; \n \
 		[33]: bool horizontalScroll; \n \
 		[34]: bool verticalScroll; \n \
 		[35]: bool horizontalScrollAuto; \n \
