@@ -50,7 +50,7 @@ namespace rpg2k
 			unsigned argNum() const { return argument_.size(); }
 			void addArg(int32_t arg) { argument_.push_back(arg); }
 
-			unsigned serializedSize() const;
+			size_t serializedSize() const;
 			std::ostream& serialize(std::ostream& s) const;
 		}; // class Instruction
 
@@ -70,8 +70,8 @@ namespace rpg2k
 			unsigned size() const { return data_.size(); }
 			void resize(unsigned num);
 
-			unsigned serializedSize() const;
-			unsigned serializedSize(unsigned offset) const;
+			size_t serializedSize() const;
+			size_t serializedSize(unsigned offset) const;
 			std::ostream& serialize(std::ostream& s) const;
 
 			typedef std::deque<Instruction> Data;

@@ -59,7 +59,7 @@ namespace rpg2k
 			for(unsigned i = 0; i <= length; i++) (*this)[i] = readBER(s);
 		}
 
-		unsigned BerEnum::serializedSize() const
+		size_t BerEnum::serializedSize() const
 		{
 			unsigned ret = berSize( size() - 1 );
 			for(unsigned i = 0; i < size(); i++) ret += berSize( (*this)[i] );
@@ -91,7 +91,7 @@ namespace rpg2k
 				default: rpg2k_assert(false); return s;
 			} else { return impl_.Binary_->serialize(s); }
 		}
-		unsigned Element::serializedSize() const
+		size_t Element::serializedSize() const
 		{
 			if( isDefined() ) switch( descriptor_->type() ) {
 				#define PP_enum(TYPE) \

@@ -34,7 +34,7 @@ namespace rpg2k
 		int32_t& Instruction::operator [](unsigned index)
 		{ rpg2k_assert( index < argument_.size() ); return argument_[index]; }
 
-		unsigned Instruction::serializedSize() const
+		size_t Instruction::serializedSize() const
 		{
 			unsigned ret =
 				berSize(code_) + berSize(nest_) +
@@ -71,11 +71,11 @@ namespace rpg2k
 			}
 		}
 
-		unsigned Event::serializedSize() const
+		size_t Event::serializedSize() const
 		{
 			return this->serializedSize(0);
 		}
-		unsigned Event::serializedSize(unsigned const offset) const
+		size_t Event::serializedSize(unsigned const offset) const
 		{
 			unsigned ret = 0;
 			for(Data::const_iterator i = data_.begin() + offset; i < data_.end(); ++i) {

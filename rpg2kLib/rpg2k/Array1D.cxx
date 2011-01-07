@@ -189,7 +189,7 @@ namespace rpg2k
 			}
 			return ret;
 		}
-		unsigned Array1D::serializedSize() const
+		size_t Array1D::serializedSize() const
 		{
 			unsigned ret = 0;
 
@@ -197,7 +197,7 @@ namespace rpg2k
 				if( !it->second->exists() ) continue;
 
 				ret += berSize(it->first);
-				unsigned const size = it->second->serializedSize();
+				size_t const size = it->second->serializedSize();
 				ret += berSize(size);
 				ret += size;
 			}

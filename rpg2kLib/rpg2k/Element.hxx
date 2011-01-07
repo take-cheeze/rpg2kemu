@@ -54,7 +54,7 @@ namespace rpg2k
 
 			Descriptor const& descriptor() const;
 
-			unsigned serializedSize() const;
+			size_t serializedSize() const;
 			std::ostream& serialize(std::ostream& s) const;
 			Binary serialize() const;
 
@@ -127,7 +127,7 @@ namespace rpg2k
 			BerEnum(std::istream& s);
 			BerEnum(Binary const& b);
 
-			unsigned serializedSize() const;
+			size_t serializedSize() const;
 			std::ostream& serialize(std::ostream& s) const;
 		}; // class BerEnum
 	} // namespace structure

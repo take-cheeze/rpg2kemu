@@ -140,7 +140,7 @@ namespace rpg2k
 		return *this;
 	}
 
-	unsigned Binary::serializedSize() const { return this->size(); }
+	size_t Binary::serializedSize() const { return this->size(); }
 	std::ostream& Binary::serialize(std::ostream& s) const
 	{
 		return s.write( reinterpret_cast<char const*>( this->data() ), this->size() );

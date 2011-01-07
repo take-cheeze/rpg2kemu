@@ -56,7 +56,7 @@ namespace rpg2k
 			Element& toElement() const;
 
 			unsigned count() const;
-			unsigned serializedSize() const;
+			size_t serializedSize() const;
 			std::ostream& serialize(std::ostream& s) const;
 		}; // class Array2D
 	} // namespace structure

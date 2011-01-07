@@ -121,7 +121,7 @@ namespace rpg2k
 			}
 			return ret;
 		}
-		unsigned Array2D::serializedSize() const
+		size_t Array2D::serializedSize() const
 		{
 			unsigned ret = 0;
 

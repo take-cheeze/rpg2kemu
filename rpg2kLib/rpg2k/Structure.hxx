@@ -82,7 +82,7 @@ namespace rpg2k
 		Binary& operator =(bool   src);
 		Binary& operator =(double src);
 
-		unsigned serializedSize() const;
+		size_t serializedSize() const;
 		std::ostream& serialize(std::ostream& s) const;
 
 		template<class T>
