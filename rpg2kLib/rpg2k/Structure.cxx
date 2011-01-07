@@ -7,6 +7,11 @@
 #include <cctype>
 
 
+namespace 
+{
+	typedef int32_t rpg2k_integer;
+} // namespace
+
 namespace rpg2k
 {
 	CharSet::Dir::Type toCharSetDir(EventDir::Type const dir)
@@ -102,7 +107,7 @@ namespace rpg2k
 		rpg2k_assert( isBER() );
 
 		std::istringstream iss( static_cast<std::string>(*this), structure::INPUT_FLAG );
-		return int32_t( structure::readBER(iss) );
+		return rpg2k_integer( structure::readBER(iss) );
 	}
 	Binary::operator bool() const
 	{
@@ -123,7 +128,7 @@ namespace rpg2k
 	Binary& Binary::operator =(int const num)
 	{
 		std::ostringstream s;
-		structure::writeBER(s, int32_t(num) );
+		structure::writeBER(s, rpg2k_integer(num) );
 		this->assign( s.str() );
 		return *this;
 	}
