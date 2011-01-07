@@ -5,6 +5,9 @@ namespace rpg2k
 {
 	namespace model
 	{
+		#define PP_contextCommandProto(CODE) \
+			template<> void Context::command<CODE>(structure::Instruction const& inst)
+
 		PP_contextCommandProto(0) // event terminater
 		{
 			this->ret();
@@ -30,5 +33,7 @@ namespace rpg2k
 		{
 			// TODO
 		}
+
+		#undef PP_contextCommandProto
 	} // namespace model
 } // namespace rpg2k

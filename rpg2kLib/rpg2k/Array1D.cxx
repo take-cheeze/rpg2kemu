@@ -70,7 +70,7 @@ namespace rpg2k
 		Array1D::Array1D(ArrayDefine info, Binary const& b)
 		: arrayDefine_(info), this_(NULL), owner_(NULL), index_(-1)
 		{
-			std::istringstream s( static_cast<std::string>(b) );
+			std::istringstream s( static_cast<std::string>(b), INPUT_FLAG );
 			init(s);
 		}
 
@@ -90,7 +90,7 @@ namespace rpg2k
 		: arrayDefine_( e.descriptor().arrayDefine() ), this_(&e)
 		, owner_(NULL), index_(-1)
 		{
-			std::istringstream s( static_cast<std::string>(b) );
+			std::istringstream s( static_cast<std::string>(b), INPUT_FLAG );
 			init(s);
 		}
 		Array1D::Array1D(Array2D& owner, unsigned index)

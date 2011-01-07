@@ -1,5 +1,6 @@
 #include <utility>
 
+#include "Command.hxx"
 #include "CommandTable.hxx"
 
 
@@ -11,7 +12,7 @@ namespace rpg2k
 		{
 			#define PP_insert(CODE) \
 				table_.insert( std::make_pair( CODE, &Context::command<CODE> ) );
-
+			PP_enumAllContextCommand(PP_insert)
 			#undef PP_insert
 		}
 

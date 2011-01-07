@@ -54,7 +54,7 @@ namespace rpg2k
 
 		Event::Event(Binary const& b)
 		{
-			std::istringstream s( static_cast<std::string>(b) );
+			std::istringstream s( static_cast<std::string>(b), INPUT_FLAG );
 			init(s);
 		}
 

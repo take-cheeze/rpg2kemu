@@ -46,7 +46,7 @@ namespace rpg2k
 		}
 		BerEnum::BerEnum(Binary const& b)
 		{
-			std::istringstream s( static_cast<std::string>(b) );
+			std::istringstream s( static_cast<std::string>(b), INPUT_FLAG );
 			init(s);
 			rpg2k_assert( s.eof() );
 		}

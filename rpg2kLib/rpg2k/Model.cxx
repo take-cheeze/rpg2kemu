@@ -21,10 +21,7 @@ namespace rpg2k
 	{
 		bool fileExists(SystemString const& fileName)
 		{
-			FILE* fp = std::fopen( fileName.c_str(), "rb");
-
-			if(fp == NULL) return false;
-			else { std::fclose(fp); return true; }
+			return std::ifstream(fileName.c_str()).good();
 		}
 
 		Base::Base(SystemString const& dir)
@@ -70,7 +67,8 @@ namespace rpg2k
 			if( fileName_.empty() ) fileName_ = defaultName();
 			rpg2k_assert( exists() );
 
-			std::ifstream ifs( fullPath().c_str() );
+			std::ifstream ifs( fullPath().c_str()
+			, structure::INPUT_FLAG );
 
 			if( !structure::checkHeader( ifs, this->header() ) ) rpg2k_assert(false);
 			/*
@@ -92,7 +90,7 @@ namespace rpg2k
 		{
 			exists_ = true;
 			saveImpl();
-			std::ofstream ofs( filename.c_str() );
+			std::ofstream ofs( filename.c_str(), structure::OUTPUT_FLAG );
 			serialize(ofs);
 		}
 		void Base::serialize(std::ostream& s)

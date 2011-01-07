@@ -106,8 +106,8 @@ namespace rpg2k
 	{
 		rpg2k_assert( isBER() );
 
-		std::istringstream iss( static_cast<std::string>(*this) );
-		return structure::readBER(iss);
+		std::istringstream iss( static_cast<std::string>(*this), structure::INPUT_FLAG );
+		return int32_t( structure::readBER(iss) );
 	}
 	Binary::operator bool() const
 	{
@@ -134,7 +134,7 @@ namespace rpg2k
 	Binary& Binary::operator =(int const num)
 	{
 		std::ostringstream s;
-		structure::writeBER(s, num);
+		structure::writeBER(s, int32_t(num) );
 		this->assign( s.str() );
 		return *this;
 	}
