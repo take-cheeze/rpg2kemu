@@ -97,11 +97,6 @@ namespace rpg2k
 		} catch(debug::AnalyzeException const&) { return false; }
 	}
 
-	Binary::operator String() const
-	{
-		// rpg2k_assert( isString() ); // will be so slow if enabled
-		return String( (char*)pointer(), size() );
-	}
 	Binary::operator int() const
 	{
 		rpg2k_assert( isBER() );
@@ -125,12 +120,6 @@ namespace rpg2k
 		return *( (double*)this->data() );
 	}
 
-	Binary& Binary::operator =(String const& str)
-	{
-		resize( str.size() );
-		std::memcpy( this->data(), str.c_str(), str.size() );
-		return *this;
-	}
 	Binary& Binary::operator =(int const num)
 	{
 		std::ostringstream s;
@@ -152,8 +141,8 @@ namespace rpg2k
 	}
 
 	unsigned Binary::serializedSize() const { return this->size(); }
-	void Binary::serialize(std::ostream& s) const
+	std::ostream& Binary::serialize(std::ostream& s) const
 	{
-		structure::write(s, *this);
+		return s.write( reinterpret_cast<char const*>( this->data() ), this->size() );
 	}
 } // namespace rpg2k

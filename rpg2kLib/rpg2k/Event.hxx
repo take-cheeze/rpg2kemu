@@ -51,7 +51,7 @@ namespace rpg2k
 			void addArg(int32_t arg) { argument_.push_back(arg); }
 
 			unsigned serializedSize() const;
-			void serialize(std::ostream& s) const;
+			std::ostream& serialize(std::ostream& s) const;
 		}; // class Instruction
 
 		class Element;
@@ -72,10 +72,10 @@ namespace rpg2k
 
 			unsigned serializedSize() const;
 			unsigned serializedSize(unsigned offset) const;
-			void serialize(std::ostream& s) const;
+			std::ostream& serialize(std::ostream& s) const;
 
 			typedef std::deque<Instruction> Data;
-			// Data const& data() const { return data_; }
+			Data const& data() const { return data_; }
 
 			typedef std::map<unsigned, unsigned> LabelTable;
 			LabelTable const& labelTable() const { return label_; }

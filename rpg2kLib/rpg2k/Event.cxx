@@ -43,13 +43,14 @@ namespace rpg2k
 			for(unsigned i = 0; i < argument_.size(); i++) ret += berSize(argument_[i]);
 			return ret;
 		}
-		void Instruction::serialize(std::ostream& s) const
+		std::ostream& Instruction::serialize(std::ostream& s) const
 		{
 			writeBER(s, code_);
 			writeBER(s, nest_);
-			writeWithSize( s, Binary(stringArgument_) );
+			writeWithSize(s, stringArgument_);
 			writeBER( s, argument_.size() );
 			for(unsigned i = 0; i < argument_.size(); i++) writeBER(s, argument_[i]);
+			return s;
 		}
 
 		Event::Event(Binary const& b)
@@ -72,19 +73,22 @@ namespace rpg2k
 
 		unsigned Event::serializedSize() const
 		{
-			unsigned ret = 0;
-			for(unsigned i = 0; i < data_.size(); i++) ret += data_[i].serializedSize();
-			return ret;
+			return this->serializedSize(0);
 		}
-		unsigned Event::serializedSize(unsigned offset) const
+		unsigned Event::serializedSize(unsigned const offset) const
 		{
 			unsigned ret = 0;
-			for(unsigned i = offset; i < data_.size(); i++) ret += data_[i].serializedSize();
+			for(Data::const_iterator i = data_.begin() + offset; i < data_.end(); ++i) {
+				ret += i->serializedSize();
+			}
 			return ret;
 		}
-		void Event::serialize(std::ostream& s) const
+		std::ostream& Event::serialize(std::ostream& s) const
 		{
-			for(unsigned i = 0; i < data_.size(); i++) data_[i].serialize(s);
+			for(Data::const_iterator i = data_.begin(); i < data_.end(); ++i) {
+				i->serialize(s);
+			}
+			return s;
 		}
 
 		void Event::resize(unsigned size)

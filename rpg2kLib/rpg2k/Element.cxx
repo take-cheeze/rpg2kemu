@@ -66,37 +66,30 @@ namespace rpg2k
 
 			return ret;
 		}
-		void BerEnum::serialize(std::ostream& s) const
+		std::ostream& BerEnum::serialize(std::ostream& s) const
 		{
 			writeBER( s, this->size() - 1 );
 			for(unsigned i = 0; i < size(); i++) writeBER( s, (*this)[i] );
+			return s;
 		}
-/*
-		CharSetDir EventState::charSetDir() const
-		{
-			return (CharSetDir) (*this)[30 + talkDir()].get<int>();
-		}
- */
 
-		void Element::serialize(std::ostream& s) const
+		std::ostream& Element::serialize(std::ostream& s) const
 		{
 			if( isDefined() ) switch( descriptor_->type() ) {
 				#define PP_enum(TYPE) \
 					case ElementType::TYPE##_: \
-						impl_.TYPE##_->serialize(s); \
-						break;
+						return impl_.TYPE##_->serialize(s);
 				PP_rpg2kTypes(PP_enum)
 				#undef PP_enum
 
 				#define PP_enum(TYPE) \
-					case ElementType::TYPE##_: { \
-						Binary bin; \
-						bin = impl_.TYPE##_; \
-						write(s, bin); \
-					} break;
+					case ElementType::TYPE##_: \
+						return (Binary() = impl_.TYPE##_).serialize(s);
 				PP_basicTypes(PP_enum)
 				#undef PP_enum
-			} else write(s, binData_);
+
+				default: rpg2k_assert(false); return s;
+			} else { return impl_.Binary_->serialize(s); }
 		}
 		unsigned Element::serializedSize() const
 		{
@@ -117,7 +110,7 @@ namespace rpg2k
 				#undef PP_enum
 
 				default: rpg2k_assert(false); return 0;
-			} else return binData_.size();
+			} else { return impl_.Binary_->serializedSize(); }
 		}
 
 		Element::Element(Element const& e)
@@ -148,7 +141,7 @@ namespace rpg2k
 			if( descriptor_->hasDefault() ) switch( descriptor_->type() ) {
 				#define PP_enum(TYPE) \
 					case ElementType::TYPE##_: \
-						impl_.TYPE##_ = descriptor().hasDefault()? descriptor() : TYPE(); \
+						impl_.TYPE##_ = this->descriptor(); \
 						break;
 				PP_basicTypes(PP_enum)
 				#undef PP_enum
@@ -178,7 +171,7 @@ namespace rpg2k
 
 				#define PP_enum(TYPE) \
 					case ElementType::TYPE##_: \
-						impl_.TYPE##_ = descriptor().hasDefault()? descriptor() : TYPE(); \
+						impl_.TYPE##_ = TYPE(); \
 						break;
 				PP_basicTypes(PP_enum)
 				#undef PP_enum
@@ -215,9 +208,7 @@ namespace rpg2k
 				PP_enum(Event)
 				PP_enum(String)
 				#undef PP_enum
-			} else {
-				binData_ = b;
-			}
+			} else { impl_.Binary_ = new Binary(b); }
 		}
 		void Element::init(std::istream& s)
 		{
@@ -322,10 +313,10 @@ namespace rpg2k
 				#undef PP_enum
 					break;
 				default: rpg2k_assert(false); break;
-			}
+			} else { delete impl_.Binary_; }
 		}
 
-		Element const& Element::operator =(Element const& src)
+		Element& Element::operator =(Element const& src)
 		{
 			if( isDefined() ) switch( descriptor_->type() ) {
 				#define PP_enum(TYPE) \
@@ -341,7 +332,7 @@ namespace rpg2k
 				PP_basicTypes(PP_enum)
 				#undef PP_enum
 				default: rpg2k_assert(false); break;
-			} else binData_ = src.binData_;
+			} else (*impl_.Binary_) = (*src.impl_.Binary_);
 
 			return *this;
 		}

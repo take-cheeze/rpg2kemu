@@ -31,8 +31,6 @@ namespace rpg2k
 				#undef PP_types
 			} impl_;
 
-			Binary binData_;
-
 			void init();
 			void init(Binary const& b);
 			void init(std::istream& s);
@@ -57,7 +55,7 @@ namespace rpg2k
 			Descriptor const& descriptor() const;
 
 			unsigned serializedSize() const;
-			void serialize(std::ostream& s) const;
+			std::ostream& serialize(std::ostream& s) const;
 			Binary serialize() const;
 
 			#define PP_castOperator(TYPE) \
@@ -104,7 +102,7 @@ namespace rpg2k
 			template<typename T>
 			T const& operator =(T const& src) { this->assign(src); return static_cast<T&>(*this); }
 
-			Element const& operator =(Element const& src);
+			Element& operator =(Element const& src);
 
 			Element& owner();
 			Element const& owner() const;
@@ -130,7 +128,7 @@ namespace rpg2k
 			BerEnum(Binary const& b);
 
 			unsigned serializedSize() const;
-			void serialize(std::ostream& s) const;
+			std::ostream& serialize(std::ostream& s) const;
 		}; // class BerEnum
 	} // namespace structure
 } // namespace rpg2k

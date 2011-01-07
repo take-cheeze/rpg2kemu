@@ -63,24 +63,27 @@ namespace rpg2k
 		Binary(Binary const& b) : std::vector<uint8_t>(b) {}
 		Binary(std::string const& str) : std::vector<uint8_t>(str.begin(), str.end()) {}
 
-		uint8_t const* data(unsigned index = 0) const { return &((*this)[index]); }
-		uint8_t* data(unsigned index = 0) { return &((*this)[index]); }
+		uint8_t const* data() const { return &( this->front() ); }
+		uint8_t* data() { return &( this->front() ); }
+
+		operator std::string() const
+		{
+			return std::string( this->begin(), this->end() ); 
+		}
 
 		bool isBER() const;
 		bool isString() const;
 	// operator wrap of converter
-		operator String() const;
 		operator int   () const;
 		operator bool  () const;
 		operator double() const;
 	// operator wrap of setter
-		Binary& operator =(String const& src);
 		Binary& operator =(int    src);
 		Binary& operator =(bool   src);
 		Binary& operator =(double src);
 
 		unsigned serializedSize() const;
-		void serialize(std::ostream& s) const;
+		std::ostream& serialize(std::ostream& s) const;
 
 		template<class T>
 		std::vector<T> convert() const

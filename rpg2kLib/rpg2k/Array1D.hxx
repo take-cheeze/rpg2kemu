@@ -78,7 +78,7 @@ namespace rpg2k
 
 			unsigned count() const;
 			unsigned serializedSize() const;
-			void serialize(std::ostream& s) const;
+			std::ostream& serialize(std::ostream& s) const;
 
 			void substantiate();
 

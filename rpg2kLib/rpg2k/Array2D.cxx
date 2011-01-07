@@ -14,7 +14,7 @@ namespace rpg2k
 		, this_(src.this_)
 		{
 			for(const_iterator it = src.begin(); it != src.end(); ++it) {
-				std::istringstream s( static_cast<std::string>( structure::serialize(*it->second) ), INPUT_FLAG );
+				std::istringstream s( structure::serialize(*it->second), INPUT_FLAG );
 				this->insert( it->first, std::auto_ptr<Array1D>( new Array1D(*this, it->first, s) ) );
 			}
 		}
@@ -31,10 +31,10 @@ namespace rpg2k
 		Array2D::Array2D(ArrayDefine info, Binary const& b)
 		: arrayDefine_(info), this_(NULL)
 		{
-			std::istringstream s( static_cast<std::string>(b), INPUT_FLAG );
+			std::istringstream s(b, INPUT_FLAG);
 
-			if( isInvalidArray2D(b) ) return; // s.seek(PARTICULAR_DATA_SIZE);
-			init(s);
+			if( isInvalidArray2D(b) ) { return; } // s.seek(PARTICULAR_DATA_SIZE);
+			else { this->init(s); }
 		}
 
 		Array2D::Array2D(Element& e)
@@ -49,7 +49,7 @@ namespace rpg2k
 		Array2D::Array2D(Element& e, Binary const& b)
 		: arrayDefine_( e.descriptor().arrayDefine() ), this_(&e)
 		{
-			std::istringstream s( static_cast<std::string>(b), INPUT_FLAG );
+			std::istringstream s(b, INPUT_FLAG );
 
 			if( isInvalidArray2D(b) ) return; // s.seek(PARTICULAR_DATA_SIZE);
 			init(s);
@@ -135,7 +135,7 @@ namespace rpg2k
 
 			return ret;
 		}
-		void Array2D::serialize(std::ostream& s) const
+		std::ostream& Array2D::serialize(std::ostream& s) const
 		{
 			writeBER( s, count() );
 			for(const_iterator it = begin(); it != end(); ++it) {
@@ -144,6 +144,7 @@ namespace rpg2k
 				writeBER( s, it->first );
 				it->second->serialize(s);
 			}
+			return s;
 		}
 
 		bool Array2D::exists(unsigned const index) const

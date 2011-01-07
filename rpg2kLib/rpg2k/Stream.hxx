@@ -33,10 +33,11 @@ namespace rpg2k
 		std::ostream& writeBER(std::ostream& os, unsigned val);
 
 		std::istream& readWithSize(std::istream& is, Binary& dst);
-		std::ostream& writeWithSize(std::ostream& os, Binary const& b);
-
-		std::istream& read(std::istream& is, Binary& dst);
-		std::ostream& write(std::ostream& os, Binary const& b);
+		template<class T>
+		std::ostream& writeWithSize(std::ostream& os, T const& val)
+		{
+			return val.serialize( writeBER( os, val.serializedSize() ) );
+		}
 	} // namespace structure
 } // namespace rpg2k
 

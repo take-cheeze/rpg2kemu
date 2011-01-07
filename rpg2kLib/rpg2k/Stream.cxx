@@ -60,23 +60,9 @@ namespace rpg2k
 			return ret;
 		}
 
-		std::ostream& writeWithSize(std::ostream& os, Binary const& b)
-		{
-			writeBER( os, b.size() );
-			return write(os, b);
-		}
 		std::istream& readWithSize(std::istream& is, Binary& dst)
 		{
 			dst.resize( readBER(is) );
-			return read(is, dst);
-		}
-
-		std::ostream& write(std::ostream& os, Binary const& b)
-		{
-			return os.write( reinterpret_cast<char const*>( b.data() ), b.size() );
-		}
-		std::istream& read(std::istream& is, Binary& dst)
-		{
 			return is.read( reinterpret_cast<char*>( dst.data() ), dst.size() );
 		}
 	} // namespace structure
